@@ -1,0 +1,47 @@
+#! /bin/bash
+#PBS -l walltime=48:00:00
+#PBS -l nodes=16
+# The following line merges the stdout and stderr together
+#PBS -j oe
+# The following line specifies the name of the job
+#PBS -N su2E12L20
+#PBS -A su2
+#PBS -q ib                           
+cd ${PBS_O_WORKDIR}
+
+ulimit -s unlimited
+
+echo `hostname` `date` >> outrun
+
+fm=0.0931979            #fermion mass
+g=12.0                #g^2
+
+nproc=16
+nconf=288
+istart=10
+nauto=1              #no. of traj between each written config
+
+a=(000 001 002 003 004 005 006 007 008 009 010 011 012 013 014 015)
+
+for iproc in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+do
+touch eig${a[$iproc]}
+done
+
+
+for j in `seq ${istart} ${nauto} ${nconf}`
+do
+
+for iproc in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+do
+cp ../GAUGE/GG${iproc}.${j} gauge${a[$iproc]}
+done
+
+echo ${fm} >inp
+(/usr/bin/time -o outtime --append mpirun -n ${nproc} ./u1eig < inp)
+
+rm gauge* 
+
+done
+
+exit

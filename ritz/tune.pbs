@@ -1,0 +1,50 @@
+#! /bin/bash
+#PBS -l walltime=10:00:00
+#PBS -l nodes=16
+# The following line merges the stdout and stderr together
+#PBS -j oe
+# The following line specifies the name of the job
+#PBS -N su2tune
+#PBS -A su2
+#PBS -q ib                           
+cd ${PBS_O_WORKDIR}
+
+ulimit -s unlimited
+
+echo `hostname` `date` >> outrun
+
+fm=0.00              #fermion mass
+g=12.0                #g^2
+hstart=1             #hot or cold start
+
+
+nproc=16
+nconf=20
+
+istart=15
+nauto=5              #no. of traj between each written confi
+
+a=(000 001 002 003 004 005 006 007 008 009 010 011 012 013 014 015)
+
+for iproc in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+do
+touch fmass${a[$iproc]}
+done
+
+
+for j in `seq ${istart} ${nauto} ${nconf}`
+do
+
+for iproc in 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+do
+cp ../GAUGE/GG${iproc}.${j} gauge${a[$iproc]}
+done
+
+echo -0.3 0.3 >inp
+(/usr/bin/time -o outtime --append mpirun -n ${nproc} ./tune)
+
+rm gauge*
+
+done
+
+exit
