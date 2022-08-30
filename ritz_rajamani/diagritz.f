@@ -5,12 +5,13 @@
       REAL*8 d(nev),ep(nev)
       REAL*8 lambda(nev)
       REAL*8 temp
-      REAL*8 diff,w
+      REAL*8 diff,w, rip
       COMPLEX*16 tempc
       INTEGER ks,i,j,k,iflag
       INTEGER is,ic,ll,l
       complex*16 x,y,t,pp
-      common /wrkry/ x(nv,2), y(nv,2), t(nv,2), pp(nv,2)
+      common /wrkry/ x(nvsz), y(nvsz), t(nvsz), pp(nvsz)
+      common /ipr/ rip(nev)
 
 
       DO j=1,nev
@@ -62,14 +63,12 @@
 
 !$OMP parallel do default(shared)
 !$OMP^ private(l,k,j)
-      do ll=1,nvev
-         l=mod(ll-1,nv)+1
-         k=(ll-1)/nv+1
-         up(l,1,k)=0.d0
-         up(l,2,k)=0.d0
+      do ll=1,nvszev
+         l=mod(ll-1,nvsz)+1
+         k=(ll-1)/nvsz+1
+         up(l,k)=0.d0
          do j=1,nev
-            up(l,1,k)=up(l,1,k)+dconjg(hm(j,k))*ur(l,1,j)
-            up(l,2,k)=up(l,2,k)+dconjg(hm(j,k))*ur(l,2,j)
+            up(l,k)=up(l,k)+dconjg(hm(j,k))*ur(l,j)
          enddo
       enddo 
       ur=up

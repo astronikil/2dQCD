@@ -2,14 +2,13 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 y(nv,2)
+      complex*16 y(nvsz)
 *
       integer i,ic,is
 *
 !$OMP parallel do default(shared)
-      do ic=1,nv
-            y(ic,1)=ur(ic,1,i) 
-            y(ic,2)=ur(ic,2,i)
+      do ic=1,nvsz
+         y(ic)=ur(ic,i) 
       enddo
 *
       return
@@ -18,14 +17,13 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 y(nv,2)
+      complex*16 y(nvsz)
 *
       integer i,ic,is
 *
 !$OMP parallel do default(shared)
-      do ic=1,nv
-         ur(ic,1,i)=y(ic,1)
-         ur(ic,2,i)=y(ic,2)
+      do ic=1,nvsz
+         ur(ic,i)=y(ic)
       enddo
 *
       return
@@ -35,12 +33,12 @@
       INCLUDE 'global.f'
 *
       integer ic
-      real*8 x(nv4)
+      real*8 x(mvs2)
       real*8 res
 *
       res=0.d0
 !$OMP parallel do default(shared) reduction(+: res)
-      do ic=1,nv4
+      do ic=1,mvs2
          res=res+x(ic)**2
       enddo
 *
@@ -50,12 +48,12 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 x(nv2),y(nv2),res
+      complex*16 x(mvs),y(mvs),res
       integer ic
 *
       res=0.d0
 !$OMP parallel do default(shared) reduction(+: res)
-      do ic=1,nv2
+      do ic=1,mvs
          res=res+dconjg(x(ic))*y(ic)
       enddo
 *
@@ -65,12 +63,12 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 x(nv2)
+      complex*16 x(mvs)
       real*8 res
       integer ic
 *
 !$OMP parallel do default(shared)
-      do ic=1,nv2
+      do ic=1,mvs
             x(ic)=res*x(ic)
       enddo
 *
@@ -80,11 +78,11 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 x(nv2),y(nv2),res
+      complex*16 x(mvs),y(mvs),res
       integer ic
 *
 !$OMP parallel do default(shared)
-      do ic=1,nv2
+      do ic=1,mvs
          x(ic)=x(ic)-res*y(ic)
       enddo
 *
@@ -94,11 +92,11 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 x(nv2),y(nv2),res
+      complex*16 x(mvs),y(mvs),res
       integer ic
 *
 !$OMP parallel do default(shared)
-      do ic=1,nv2
+      do ic=1,mvs
          x(ic)=x(ic)+res*y(ic)
       enddo
 *
@@ -108,12 +106,12 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 x(nv2),y(nv2)
+      complex*16 x(mvs),y(mvs)
       real*8 a,b
       integer ic
 *
 !$OMP parallel do default(shared)
-      do ic=1,nv2
+      do ic=1,mvs
          x(ic)=a*x(ic)+b*y(ic)
       enddo
 *
@@ -123,12 +121,12 @@
 *
       INCLUDE 'global.f'
 *
-      complex*16 x(nv2),y(nv2),z(nv2)
+      complex*16 x(mvs),y(mvs),z(mvs)
       real*8 a
       integer ic,is
 *
 !$OMP parallel do default(shared)
-      do ic=1,nv2
+      do ic=1,mvs
          z(ic)=x(ic)-a*y(ic)
       enddo
 *

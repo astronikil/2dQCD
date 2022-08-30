@@ -2,7 +2,7 @@
 
       INCLUDE 'global.f'
 
-      COMPLEX*16 x(nv,2),y(nv,2)
+      COMPLEX*16 x(nvsz),y(nvsz)
 
       COMPLEX*16 overc
       INTEGER i,is,ic,iv

@@ -145,7 +145,7 @@ c     &     MPI_COMM_WORLD,ierr)
 *
             uo=u      !Copy old configutation in case of mc rejection
 *
-            dt=1.0D0/dfloat((nmd+1)) !MC step size for
+            dt=1.0D0/dfloat(nmd) !MC step size for
                                                  !trajectory of size nmd which might have changed in previous
                                                  !step
             ilen=ilen+nmd !Keep track of actual number of steps taken to

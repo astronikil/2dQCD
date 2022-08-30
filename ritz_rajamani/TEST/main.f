@@ -48,7 +48,9 @@ c     &     MPI_COMM_WORLD,ierr)
       
       call addrc
 
-      call readconfig2(beta, fm, time) 
+      call ordsun
+
+      !call readconfig2(beta, fm, time) 
 
       call plaq(es)
       call line(wl)

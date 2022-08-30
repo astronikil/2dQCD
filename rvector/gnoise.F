@@ -6,7 +6,7 @@
 ************************************************************************
 #include "size.h"
       integer, parameter :: K2MAX=2*nca*mb 
-      real*8, parameter :: fac=1.0D0/sqrt(dfloat(2.0D0))
+      real*8, parameter :: fac=1.0D0/sqrt(2.0D0)
 *
       integer iseed, ino, ica, j, l
       real*8 RUNUM(K2MAX)

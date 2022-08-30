@@ -47,9 +47,10 @@
       u=(0.0D0,0.0D0)
 *
       do l=1,mb
-         do ic=1, nc
-            u(ic,ic,l)=(1.0D0,0.0D0)
+         do ic=1, nc-1
+            u(ic,ic,l)=(1.0D0,0.0D0)*exp(-(rpi*zi/mx))
          enddo
+         u(nc,nc,l)=(1.0D0,0.0D0)*exp((nc-1)*(rpi*zi/mx))
       enddo
 *
       write(28,'(2x,a)') 'Initialised to ordered link configuration'

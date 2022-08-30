@@ -3,7 +3,7 @@
       
       INCLUDE 'global.f'
 
-      COMPLEX*16 zz(nv,2)
+      COMPLEX*16 zz(nvsz)
 
       complex*16 x,y,t,p
 
@@ -14,7 +14,7 @@
       INTEGER iev
       INTEGER is,ic
 
-      common /wrkry/ x(nv,2), y(nv,2), t(nv,2), p(nv,2)
+      common /wrkry/ x(nvsz), y(nvsz), t(nvsz), p(nvsz)
 
       CALL DDAG(p,zz)
 

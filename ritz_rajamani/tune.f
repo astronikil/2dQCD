@@ -1,26 +1,61 @@
-include 'global.f'
-      real*8 beta, fm, time, rmi, rmf, rtune, errl ,errm, eps
+      include 'global.f'
+      real*8 beta, fm, time, rtune, errl ,errm, eps
       real*8 lamb, csw
+      real*8 rmi, rmf
       integer counter,lseed, nlev
-      parameter(eps=0.6, nlev=1)
-      
-      read(*,*)rmi,rmf, csw
-      
+      integer v1,v2,v3,iproc,ierr
+      character tt1,tt2,tt3,fix(0:nprocs-1)*3
+      parameter(eps=0.65, nlev=1)
+*      
+      call MPI_INIT(ierr)
+      call MPI_COMM_RANK(MPI_COMM_WORLD,myid,ierr)
+      call MPI_COMM_SIZE(MPI_COMM_WORLD,numprocs,ierr)
+*
+      if(myid.eq.0)then
+         do iproc=0,numprocs-1
+            v1=iproc/100
+            v2=iproc/10
+            v3=v2/10
+            v2=v2-10*v3
+            v3=iproc-v2*10-v1*100
+            tt1=char(48+v1)
+            tt2=char(48+v2)
+            tt3=char(48+v3)
+            fix(iproc)=tt1//tt2//tt3
+         enddo
+      endif
+*
+      call MPI_BCAST(fix(0),nprocs*3,MPI_CHARACTER,0,
+     &     MPI_COMM_WORLD,ierr)
+
+      open(65,file='fmass'//fix(myid),access='append',status='old')
+      open(88,file='back'//fix(myid),status='unknown')
+      open(99,file='hist'//fix(myid),status='unknown')
+      open(10,file='gauge'//fix(myid),status='unknown')
+*
+      rmi=-0.2
+      rmf=0.2
+*      
       call addrc
-
+*
       call readconfig(beta, fm, time)
-
-      call ferminit(csw)
-
+*
+      call ferminit
+*
       lseed=137
       call setrn(lseed)
-
+*
       call tune(rmi,rmf,rtune,errl,errm,time,lamb)
-
+*
       write(65,*)rtune, errm, errl, lamb
-
+*
+      close(10)
+      close(65)
+      close(88)
+      close(99)
+      call MPI_FINALIZE(ierr)
+*
       stop
-
       end
       subroutine tune(rmi,rmf,rmm,rat,dw,time,lamb)
       include 'global.f'

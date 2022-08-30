@@ -24,7 +24,7 @@ c      call writeinit
 ************************************************************************
 *     The rest of the steps of the trajectory.                         *
 ************************************************************************
-      do 110 imd=1,nmd
+      do 110 imd=1,nmd-1
          call fermfo(ncgo,ncgs)                     ! the fermionic force
          ncgomn=min(ncgomn,ncgo)
          ncgomx=max(ncgomx,ncgo)

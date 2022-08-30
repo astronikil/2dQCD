@@ -5,7 +5,7 @@
       complex*16 x,y,t,p
       REAL*8 lambda(nev), rm
       common /quark/ rm
-      common /wrkry/ x(nv,2), y(nv,2), t(nv,2), p(nv,2)
+      common /wrkry/ x(nvsz), y(nvsz), t(nvsz), p(nvsz)
 
       COMPLEX*16 overc
       REAL*8 over,muritz,pnorm,gnorm,gstart,w,overi
@@ -19,9 +19,8 @@
          DO iev=1,nev
             
 !$OMP parallel do default(shared)
-            do ic=1,nv
-                x(ic,1)=ur(ic,1,iev) 
-                x(ic,2)=ur(ic,2,iev)
+            do ic=1,nvsz
+                x(ic)=ur(ic,iev) 
             enddo
 *
             CALL GS(x,iev) 
@@ -31,14 +30,12 @@
             if(over.lt.1.e-18) then
                write(99,*) 'zero vector over at start',over,ks,iev
             endif
-            over=1.0/sqrt(over)
+            over=1.d0/sqrt(over)
 *
 !$OMP parallel do default(shared)
-            do ic=1,nv
-               x(ic,1)=over*x(ic,1)
-               x(ic,2)=over*x(ic,2)
-               ur(ic,1,iev)=x(ic,1)
-               ur(ic,2,iev)=x(ic,2)
+            do ic=1,nvsz
+               x(ic)=over*x(ic)
+               ur(ic,iev)=x(ic)
             enddo
 *
             CALL DDAG(x,y) 
@@ -79,11 +76,9 @@
                   overi=1.d0/over
 *
 !$OMP parallel do default(shared)
-                  do ic=1,nv
-                     p(ic,1)=over*p(ic,1)
-                     p(ic,2)=over*p(ic,2)
-                     x(ic,1)=overi*x(ic,1)
-                     x(ic,2)=overi*x(ic,2)
+                  do ic=1,nvsz
+                     p(ic)=over*p(ic)
+                     x(ic)=overi*x(ic)
                   enddo
                   over=overi
 *
@@ -107,7 +102,6 @@
                if(pnorm.lt.1.e-18) then
                   write(99,*) 'zero search in Ritz',pnorm,ks,iev,i
                endif
-               call flush
             ENDDO
 
             
@@ -121,9 +115,8 @@
             endif
 *
 !$OMP parallel do default(shared)
-            do ic=1,nv
-               ur(ic,1,iev)=x(ic,1)
-               ur(ic,2,iev)=x(ic,2)
+            do ic=1,nvsz
+               ur(ic,iev)=x(ic)
             enddo
 *
 

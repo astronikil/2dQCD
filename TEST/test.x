@@ -18,7 +18,7 @@ g3=4.0
 g4=4.0
 
 itune=0           #to get a detailed report on time taken in trajectories
-nmd=39             #initial no. of molecular dynamics steps
+nmd=40             #initial no. of molecular dynamics steps
 ntherm=0          #put 0; doesn't matter
 dt=0.025            #initial MD step size
 
