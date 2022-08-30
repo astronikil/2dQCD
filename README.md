@@ -1,4 +1,4 @@
-# HMC_2d
+# 2dQCD
 
 This is a fortran based code suite for SU(Nc) gauge theory coupled to fermions in two-dimensions.
 
