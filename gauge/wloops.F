@@ -238,7 +238,6 @@
          enddo
       enddo
 *
-      write(*,*)nplaq,mv
       es=dfloat(nc*nplaq)-real(xet) !/nplane/mv/nc
       !es=-real(xet) !/nplane/mv/nc
       return
