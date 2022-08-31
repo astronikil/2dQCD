@@ -43,7 +43,7 @@
 *
       !call readconfig2(beta, fm2, time) 
 *
-      call ransun
+      call ordsun
 c      call plaq(es)
 c      write(*,*)'before:',es
 c      call gtransform
