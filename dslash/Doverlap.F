@@ -18,6 +18,41 @@
 *
       return
       end
+      subroutine V_overlap(v,w,ncg)
+#include "size.h"
+      integer ncg, l
+      real*8 r1, r2
+      complex*16 v(nc,nspr,mv), w(nc,nspr,mv)
+      complex*16 x, y
+      common /fermwrk1/ x(nc,nspr,mv), y(nc,nspr,mv)
+*
+      call H_wilson(v,x)
+      call sqrtoverlap(x,w,ncg)
+*
+      do l=1,mv
+         w(:,2,l) = -w(:,2,l)
+      enddo
+*
+      return
+      end
+      subroutine Vdag_overlap(v,w,ncg)
+#include "size.h"
+      integer ncg, l
+      real*8 r1, r2
+      complex*16 v(nc,nspr,mv), w(nc,nspr,mv)
+      complex*16 x, y
+      common /fermwrk1/ x(nc,nspr,mv), y(nc,nspr,mv)
+*      
+      do l=1,mv
+         w(:,1,l) =  v(:,1,l)
+         w(:,2,l) = -v(:,2,l)
+      enddo
+*
+      call H_wilson(w,x)
+      call sqrtoverlap(x,w,ncg)
+*
+      return
+      end
       subroutine sqrtoverlap(v,w,ncg)
 #include "size.h"
 #include "zolo.h"
@@ -32,3 +67,19 @@
          w=w+rz(izol)*x(:,izol)
       enddo
       end
+c      subroutine VVdag_overlap(v,w,ncg)
+c***** This subroutine not tested. This is a stub ********  
+c#include "size.h"
+c      integer ncg, l
+c      real*8 r1, r2
+c      complex*16 v(nc,nspr,mv), w(nc,nspr,mv)
+c      complex*16 x, y
+c      common /fermwrk2/ x(nc,nspr,mv), y(nc,nspr,mv)
+c*      
+c      call V_overlap(v, x)
+c      call Vdag_overlap(v, y)
+c*
+c      w = 2.0D0*v + x + y
+c*
+c      return
+c      end
