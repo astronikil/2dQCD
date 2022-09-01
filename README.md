@@ -21,13 +21,17 @@ The current implementation has
 2. Overlap
 3. The hermitian operators of the above.
 
-#Invertors
-The inversion is via conjugate gradient. The current version has
-1. single inversion of Wilson-Dirac, D^\dagger D
-2. Single inversion of hermitian-overlap^2
-3. Multimass inversion of hermitian-Dirac^2
 
-The stopping criterion & max steps for for Wilson-Dirac are specified in block 
-common /param_sqrt/ delitsq, nitsq
-The stopping criterion & max steps for for Overlap are specified in block 
-common /param_overlap/ delitov, nitov
+#How to run
+
+1. First set lattice size and Nc in headers/size.h
+2. You can change Zolotorev parameters in headers/zolo.h
+3. Set number of eigenvalue measurements in ritz_rajamani/global.f
+4. Go to the directory EXAMPLE.  Run ./comp.x to compile hmc+measurment routines. 
+5. Copy the executable hmc and script run.x to another directory where you want to start running.
+6. open script run.x, and set the coupling \lambda, and also check for other parameters.
+7. Run ./run.x.
+8. It will run, and produce plaquette and Polyakov loop measurement in data000. The file outrun000 will
+   contain general runtime history, acceptance rates, etc.  The eigenvalue measurements will be in EIG/.
+   Meson measurements in MES/. If variable iboolwrite==1, then gauge fields will be written in GAUGE/.
+
