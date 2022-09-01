@@ -1,8 +1,5 @@
 #! /bin/bash
 
-rm -r fort.* *000 GAUGE
-
-
 fm=1.0            #Wilon mass
 
 iboolwrite=0   #iboolwrite=1 will write configs sequentially to GAUGE/, iboolwrite=0 will instead rewrite gaugeold files
@@ -10,20 +7,15 @@ iboolwrite=0   #iboolwrite=1 will write configs sequentially to GAUGE/, iboolwri
 stringlen=0
 
 hstart=1          #hot=1 or cold=0 start
-nauto=1           #no. of traj between each written config
+nauto=5           #no. of traj between each written config
 
-g1=4.0           #list of 4 different ell's with 32 streams each
-g2=4.0
-g3=4.0
-g4=4.0
+lambda=4.0           #list of 4 different ell's with 32 streams each
 
-itune=0           #to get a detailed report on time taken in trajectories
 nmd=40             #initial no. of molecular dynamics steps
-ntherm=0          #put 0; doesn't matter
-dt=0.025            #initial MD step size
+dt=0.025           #initial MD step size
 
-nproc=1        #no. of MPI processes
-nconf=1        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
+nproc=1          #no. of MPI processes
+nconf=200        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
                    
 
 #the array a below has to be changed to (000 001  .... (value of nproc padded with appropritate number of 0s in front))
@@ -53,7 +45,7 @@ do
 istart=$(<inputfile${a[$iproc]})
 
 echo ${glist[$iproc]} ${fm} > inp${a[$iproc]}
-echo 3500  1.E-5 3500 1.E-7 >>inp${a[$iproc]}
+echo 3500  1.E-4 3500 1.E-6 >>inp${a[$iproc]}
 
   if test -e gaugeold${a[$iproc]}
   then
@@ -83,7 +75,7 @@ echo $(($iproc+1)) >> inp${a[$iproc]}
 echo " " >> outrun${a[$iproc]}
 done
 
-(../hmc/hmc)
+(./hmc)
 
 exit
 

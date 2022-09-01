@@ -1,6 +1,9 @@
-./TEST
-su2
+./TEST*/
 fort.*
-*/fort.*
-*/*.o
-*/*.c
+*000*
+*.o
+*.c
+hmc/hmc
+ritz_rajamani/a.out
+ritz_rajamani/suneig
+c2pt/correl
