@@ -1,8 +1,15 @@
       include 'global.f'
+      integer, parameter :: ncgmax = 5000
+      real*8, parameter :: DACCU1=1.0E-4, DACCU2=1.0E-6
       integer counter, lseed, iev
       real*8 beta, fm, time, rm, rmv, csw, es
       REAL*8 lambda(nev), ipr(nev)
       complex*16 x, y, t, p, wl
+
+      integer nitov, nitsq
+      real*8 delitov, delitsq
+      common /param_overlap/ delitov, nitov
+      common /param_sqrt/ delitsq, nitsq
 
       integer v1,v2,v3,iproc,ierr
       character tt1,tt2,tt3,fix(0:nprocs-1)*3
@@ -41,6 +48,11 @@ c     &     MPI_COMM_WORLD,ierr)
       open(99,file='hist'//fix(myid),status='unknown')
       open(10,file='gauge'//fix(myid),status='unknown')
 *
+      delitov=(DACCU1)**2
+      delitsq=(DACCU2)**2
+      nitov = ncgmax
+      nitsq = ncgmax
+
       rm=2.0-rmv
 *
       lseed=137

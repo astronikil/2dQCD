@@ -1,17 +1,17 @@
       subroutine DDAG(v,w)
       include 'global.f'
-      integer, parameter :: ncgmax = 5000
-      real*8, parameter :: DACCU1=1.0E-4, DACCU2=1.0E-6
+c      integer, parameter :: ncgmax = 5000
+c      real*8, parameter :: DACCU1=1.0E-4, DACCU2=1.0E-6
       integer nitov, nitsq, ncgo, l
-      real*8 delitov, delitsq
+c      real*8 delitov, delitsq
       complex*16 v(nc,2,nv), w(nc,2,nv), x(nc,2,nv)
-      common /param_overlap/ delitov, nitov
-      common /param_sqrt/ delitsq, nitsq
+c      common /param_overlap/ delitov, nitov
+c      common /param_sqrt/ delitsq, nitsq
 *       
-      delitov=(DACCU1)**2
-      delitsq=(DACCU2)**2
-      nitov = ncgmax
-      nitsq = ncgmax
+c      delitov=(DACCU1)**2
+c      delitsq=(DACCU2)**2
+c      nitov = ncgmax
+c      nitsq = ncgmax
 *
 c      call linkc
 c      call fmv_wilson(v,x)
