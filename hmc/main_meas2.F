@@ -15,7 +15,7 @@
      1        ilen, istep, l, nmd_min, nstep_new, nmd_new, initconf,
      1        iconf, nconf, itune,  ncgoemn, ncgoemx, ncgsemn,
      1        ncgsemx, ncgoe, ncgse, nmon, inewseed, ntop3, nstring,
-     1        iboolwrite
+     1        iboolwrite, ntherm
         
       real*8 ua, uas, uao, rm, fm, fmo, betag, dt, delitov, delitsq,
      1       pi, tpi, fmfac1, fmfac2, beta, time, esp, racc, delit,
@@ -89,6 +89,7 @@ c     &     MPI_COMM_WORLD,ierr)
       read(27,*)istart, nodat, iboolwrite
       read(27,*)nmd, nconf, ntraj, nmp, nadaptnmd
       read(27,*)ncnf
+      read(27,*)ntherm
       close(27)
 *
       write(sio,6102)fix(myid)
@@ -201,6 +202,9 @@ c     &     MPI_COMM_WORLD,ierr)
 *        Measurement of fermionic observables           	       *
 *                                                                      *
 ************************************************************************
+
+         if(iconf.gt.ntherm)then
+
          write(eeigstring,6103)fix(myid),iconf
          write(ebackstring,6104)fix(myid),iconf
          write(ehiststring,6105)fix(myid),iconf
@@ -220,6 +224,8 @@ c     &     MPI_COMM_WORLD,ierr)
          call meson
 *
          close(36)
+
+         endif
 ************************************************************************
 *                                                                      *
 *        Write out the final configuration 			       *

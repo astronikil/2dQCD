@@ -48,9 +48,9 @@ c      call writeinit
       call ferminit
       call energy(beta,em,es,ef,enef,ncgoe,ncgse)
       call metro(ene0,enef,naccept)             ! metropolis step
-      write(*,*)ene0,em0,es0,ef0
-      write(*,*)enef,em,es,ef
-      write(*,*)' '
+c      write(*,*)ene0,em0,es0,ef0
+c      write(*,*)enef,em,es,ef
+c      write(*,*)' '
 *
       return
       end

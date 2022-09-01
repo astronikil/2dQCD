@@ -1,8 +1,7 @@
 #! /bin/bash
 
 
-
-gfortran -O3 -W -o hmc \
+gfortran -O3 -o hmc \
 ../hmc/main_meas2.F \
 ../hmc/lat.F \
 ../hmc/metro.F \

@@ -1,33 +1,40 @@
 #! /bin/bash
 
+########################################################################################
+#       Parameter block begins                                                         #
+########################################################################################
+
+lambda=4.0        #list of `t Hooft dimensionless area
+nconf=2000        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
+ntherm=20         #number of initial config (=nauto*nntherm trajectories) to skip for fermion measurments
+
 fm=1.0            #Wilon mass
 
-iboolwrite=0   #iboolwrite=1 will write configs sequentially to GAUGE/, iboolwrite=0 will instead rewrite gaugeold files
-
-stringlen=0
+iboolwrite=0      #iboolwrite=1 will write configs sequentially to GAUGE/, iboolwrite=0 will instead rewrite gaugeold files
 
 hstart=1          #hot=1 or cold=0 start
-nauto=5           #no. of traj between each written config
+nauto=5           #no. of traj between each written config ~ autocorrelation time
 
-lambda=4.0           #list of 4 different ell's with 32 streams each
 
-nmd=40             #initial no. of molecular dynamics steps
-dt=0.025           #initial MD step size
+nmd=40            #initial no. of molecular dynamics steps
+dt=0.025          #initial MD step size
 
 nproc=1          #no. of MPI processes
-nconf=200        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
+########################################################################################
+#       Parameter block end                                                            #
+########################################################################################
                    
 
 #the array a below has to be changed to (000 001  .... (value of nproc padded with appropritate number of 0s in front))
 
 a=(000)
 
-
-
 #array of ell's to be run in diff cores
-glist=(${g1})
+glist=(${lambda})
 
-mkdir GAUGE
+mkdir -p GAUGE
+mkdir -p EIG
+mkdir -p MES
 
 for iproc in `seq 0 $(($nproc-1))`
 do
@@ -71,6 +78,7 @@ echo 3500  1.E-4 3500 1.E-6 >>inp${a[$iproc]}
 
 echo ${nmd} ${nconf} ${nauto} 1 1 >> inp${a[$iproc]}
 echo $(($iproc+1)) >> inp${a[$iproc]}
+echo ${ntherm} >> inp${a[$iproc]}
 
 echo " " >> outrun${a[$iproc]}
 done
@@ -78,4 +86,3 @@ done
 (./hmc)
 
 exit
-

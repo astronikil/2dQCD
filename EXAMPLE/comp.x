@@ -2,22 +2,25 @@
 
 # commit all files #
 
-echo "Check if the entries in header file is correct:"
+rm -f hmc 
 
+echo " "
+echo " "
+echo "Check if the entries in header file is correct:"
+echo " "
+echo " "
+
+echo " "
+echo " "
 echo ">>>>>>>> BEGIN HEADER <<<<<<<<<<<<<<<"
 cat ../headers/size.h
 echo ">>>>>>>>   END HEADER <<<<<<<<<<<<<<<"
+echo " "
+echo " "
+
+../hmc/comp_meas2.x
 
 
-../hmc/comp.x
-
-echo 'Compiled HMC'
-
-../ritz_rajamani/comp.x
-echo 'Compiled eigen'
-
-../c2pt/comp.x
-echo 'Compiled correl'
-
+echo "Compile HMC done"
 
 
