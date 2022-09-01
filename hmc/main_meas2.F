@@ -1,8 +1,8 @@
        program hmc
 ************************************************************************
 *                                                                      *
-*      Hybrid Monte Carlo for U(1) in 3d with nf flav 4 component      *
-*      overlap fermions                                                *
+*      Hybrid Monte Carlo for SU(Nc) theory coupled to massless        *
+*      overlap fermions in 2d                                          *
 *                                                                      *
 ************************************************************************
 #include "size.h"
