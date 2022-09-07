@@ -15,7 +15,7 @@
      1        ilen, istep, l, nmd_min, nstep_new, nmd_new, initconf,
      1        iconf, nconf, itune,  ncgoemn, ncgoemx, ncgsemn,
      1        ncgsemx, ncgoe, ncgse, nmon, inewseed, ntop3, nstring,
-     1        iboolwrite, ntherm
+     1        iboolwrite, ntherm, nconfnotune
         
       real*8 ua, uas, uao, rm, fm, fmo, betag, dt, delitov, delitsq,
      1       pi, tpi, fmfac1, fmfac2, beta, time, esp, racc, delit,
@@ -90,6 +90,7 @@ c     &     MPI_COMM_WORLD,ierr)
       read(27,*)nmd, nconf, ntraj, nmp, nadaptnmd
       read(27,*)ncnf
       read(27,*)ntherm
+      read(27,*)nconfnotune
       close(27)
 *
       write(sio,6102)fix(myid)
@@ -164,15 +165,18 @@ c     &     MPI_COMM_WORLD,ierr)
             ncgsemn=min(ncgsemn,ncgse)
             ncgsemx=max(ncgsemx,ncgse)
 *
-            call adaptstep(ene0,enef,nmd,nmd_new) !Tune nmd
+
+            if(iconf.ge.nconfnotune)then
+               call adaptstep(ene0,enef,nmd,nmd_new) !Tune nmd
 *
-            if(nmt.eq.0.and.nmp.eq.1)then 
-               u=uo    !Copy back old config if rejected
-               nr=nr+1 !increase reject counter
-            endif 
+               if(nmt.eq.0.and.nmp.eq.1)then 
+                  u=uo    !Copy back old config if rejected
+                  nr=nr+1 !increase reject counter
+               endif 
 *
-            if(nadaptnmd.eq.1)then !tune nmd
-               nmd=nmd_new
+               if(nadaptnmd.eq.1)then !tune nmd
+                  nmd=nmd_new
+               endif
             endif
 *
             nlen=ilen  !Total number of dt steps

@@ -28,14 +28,18 @@
       integer nin, nout
       real*8 ene0, enef, de
 *
-      de=abs(enef-ene0)
+      if(enef.le.ene0)then
+         nout=nin
+      else
+         de=abs(enef-ene0)
 *
-      if(de.gt.dmax)nout=nin+1
-      if(de.gt.dmaxx)nout=nin+2
-      if(de.lt.dmin)nout=nin-1
-      if(de.ge.dmin.and.de.le.dmax)nout=nin
+         if(de.gt.dmax)nout=nin+1
+         if(de.gt.dmaxx)nout=nin+2
+         if(de.lt.dmin)nout=nin-1
+         if(de.ge.dmin.and.de.le.dmax)nout=nin
 *
-      if(nout.lt.nmin)nout=nmin
+         if(nout.lt.nmin)nout=nmin
+      endif
 *
       return
       end
@@ -46,13 +50,17 @@
       integer nmd, nmdp
       real*8 ene0, enef, de
 *
-      de=abs(enef-ene0)
-      if(de.gt.dmax)nmdp=nmd+2
-      if(de.gt.dmaxx)nmdp=nmdp+4
-      if(de.lt.dmin)nmdp=nmd-2
-      if(de.ge.dmin.and.de.le.dmax)nmdp=nmd
-      if(nmdp.lt.nmin)nmdp=nmin
-      if(nmdp.gt.nmax)nmdp=nmax
+      if(enef.le.ene0)then
+         nmdp=nmd
+      else
+         de=abs(enef-ene0)
+         if(de.gt.dmax)nmdp=nmd+2
+         if(de.gt.dmaxx)nmdp=nmdp+4
+         if(de.lt.dmin)nmdp=nmd-2
+         if(de.ge.dmin.and.de.le.dmax)nmdp=nmd
+         if(nmdp.lt.nmin)nmdp=nmin
+         if(nmdp.gt.nmax)nmdp=nmax
+      endif
 *        
       return
       end subroutine adaptstep

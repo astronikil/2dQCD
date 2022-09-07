@@ -4,10 +4,9 @@
 #       Parameter block begins                                                         #
 ########################################################################################
 
-lambda=96.0        #list of `t Hooft dimensionless area
-nconf=2020        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
-ntherm=25         #number of initial config (=nauto*nntherm trajectories) to skip for fermion measurments
-nconfnotune=10
+lambda=4.0        #list of `t Hooft dimensionless area
+nconf=2000        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
+ntherm=20         #number of initial config (=nauto*nntherm trajectories) to skip for fermion measurments
 
 fm=1.0            #Wilon mass
 
@@ -17,8 +16,8 @@ hstart=1          #hot=1 or cold=0 start
 nauto=5           #no. of traj between each written config ~ autocorrelation time
 
 
-nmd=25            #initial no. of molecular dynamics steps
-dt=0.04           #initial MD step size
+nmd=40            #initial no. of molecular dynamics steps
+dt=0.025          #initial MD step size
 
 nproc=1          #no. of MPI processes
 ########################################################################################
@@ -80,8 +79,6 @@ echo 3500  1.E-4 3500 1.E-6 >>inp${a[$iproc]}
 echo ${nmd} ${nconf} ${nauto} 1 1 >> inp${a[$iproc]}
 echo $(($iproc+1)) >> inp${a[$iproc]}
 echo ${ntherm} >> inp${a[$iproc]}
-echo ${nconfnotune} >> inp${a[$iproc]}
-
 
 echo " " >> outrun${a[$iproc]}
 done

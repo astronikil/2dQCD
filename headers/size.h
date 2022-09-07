@@ -5,7 +5,7 @@
 *************************************************************************
       implicit none
 c      include "mpif.h"
-      integer, parameter :: mx=4, mt=4, nd=2
+      integer, parameter :: mx=12, mt=12, nd=2
       integer, parameter :: nc=2, nc2=nc*nc
       integer, parameter :: nca=nc2-1
       integer, parameter :: mv=mx*mt, mb=nd*mv, mv2=(nd-1)*mv
