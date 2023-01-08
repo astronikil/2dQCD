@@ -5,9 +5,9 @@
 ########################################################################################
 
 lambda=96.0        #list of `t Hooft dimensionless area
-nconf=2020        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
-ntherm=25         #number of initial config (=nauto*nntherm trajectories) to skip for fermion measurments
-nconfnotune=10
+nconf=2005        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
+ntherm=5         #number of initial config (=nauto*nntherm trajectories) to skip for fermion measurments
+nconfnotune=0
 
 fm=1.0            #Wilon mass
 
