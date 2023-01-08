@@ -2,10 +2,10 @@
 
 
 gfortran -O3 -o hmc \
-../hmc/main_meas2.F \
+../hmc/main_finetune.F \
 ../hmc/lat.F \
 ../hmc/metro.F \
-../hmc/adapt.F \
+../hmc/adapt_tune.F \
 ../hmc/mold_leap.F \
 ../hmc/bosefo.F \
 ../hmc/energy.F \

@@ -41,7 +41,7 @@
          call ordsun
       else if (istart.eq.-1. or. istart.eq.-2) then				! old start
          call readconfig(beta, fm, dt, nitrc, delit, ntraj,
-     1           nlen, istart, time, nmd)
+     1           nstep, istart, time, nmd)
 c
          if(istart.eq.-1)then
            write(28,'(5x,a)') 'Initialised to gaugeold'
@@ -52,7 +52,7 @@ c
 c
       else if (istart.eq.-3) then				! old start
          call readconfig(beta, fm, dt, nitrc, delit, ntraj,
-     1           nlen, istart, time, nmd)
+     1           nstep, istart, time, nmd)
          call setseed
          write(28,'(5x,a)') 
      1     'Initialised to gaugeold and new seed'
