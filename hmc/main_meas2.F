@@ -198,6 +198,7 @@ c     &     MPI_COMM_WORLD,ierr)
      1                  ncgomn, ncgomx, ncgsmn, ncgsmx, 
      1                  ncgoemn, ncgoemx, ncgsemn, ncgsemx, 
      1                  dt, nlen, sact, wl, ene0, enef
+            call flush
          enddo
          racc=1.0D0-dfloat(nr)/dfloat(ntraj)
          write(28,6003)racc
@@ -252,6 +253,7 @@ c     &     MPI_COMM_WORLD,ierr)
      1           nlen, istart, time, nmd)
             close(12)
          endif
+         call flush
 
       enddo !end loop over iconf
 *      
