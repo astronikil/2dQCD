@@ -5,20 +5,19 @@
 ########################################################################################
 
 lambda=96.0        #list of `t Hooft dimensionless area
-nconf=2005        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
-ntherm=5         #number of initial config (=nauto*nntherm trajectories) to skip for fermion measurments
+nconf=200        #max no. of configurations in each  MPI stream to be generated. Set this to high value.
+ntherm=200         #number of initial config (=nauto*nntherm trajectories) to skip for fermion measurments
 nconfnotune=0
 
 fm=1.0            #Wilon mass
 
 iboolwrite=0      #iboolwrite=1 will write configs sequentially to GAUGE/, iboolwrite=0 will instead rewrite gaugeold files
 
-hstart=1          #hot=1 or cold=0 start
+hstart=0          #Always keep cold start(=0) for fine-tuned thermalization runs.
 nauto=5           #no. of traj between each written config ~ autocorrelation time
 
 
-nmd=25            #initial no. of molecular dynamics steps
-dt=0.04           #initial MD step size
+nmd=10            #initial no. of molecular dynamics steps. Effective nmd = 10X4 for this value
 
 nproc=1          #no. of MPI processes
 ########################################################################################
@@ -77,7 +76,7 @@ echo 3500  1.E-4 3500 1.E-6 >>inp${a[$iproc]}
     fi
   fi
 
-echo ${nmd} ${nconf} ${nauto} 1 1 >> inp${a[$iproc]}
+echo ${nmd} ${nconf} ${nauto} 5 1 1 1 >> inp${a[$iproc]}
 echo $(($iproc+1)) >> inp${a[$iproc]}
 echo ${ntherm} >> inp${a[$iproc]}
 echo ${nconfnotune} >> inp${a[$iproc]}

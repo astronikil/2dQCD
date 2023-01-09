@@ -8,7 +8,7 @@
 *        istart > 0  random start                                      *
 ************************************************************************
 #include "size.h"
-      integer istart, nmd, nflav, nitrc, ntraj, nlen, nstep,
+      integer istart, istrt, nmd, nflav, nitrc, ntraj, nlen, nstep,
      1  nmin, nmax
       real*8 time, dt, pi, tpi, fm, beta, delit
       complex*16 r1, r2, tpiz, zi
@@ -41,8 +41,8 @@
          call ordsun
       else if (istart.eq.-1. or. istart.eq.-2) then				! old start
          call readconfig(beta, fm, dt, nitrc, delit, ntraj,
-     1           nlen, istart, time, nmd)
-c
+     1           nstep, istrt, time, nmd)
+
          if(istart.eq.-1)then
            write(28,'(5x,a)') 'Initialised to gaugeold'
          endif
@@ -52,7 +52,7 @@ c
 c
       else if (istart.eq.-3) then				! old start
          call readconfig(beta, fm, dt, nitrc, delit, ntraj,
-     1           nlen, istart, time, nmd)
+     1           nstep, istrt, time, nmd)
          call setseed
          write(28,'(5x,a)') 
      1     'Initialised to gaugeold and new seed'

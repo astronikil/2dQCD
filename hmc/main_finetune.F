@@ -15,7 +15,7 @@
      1        ilen, istep, l, nmd_min, nstep_new, nmd_new, initconf,
      1        iconf, nconf, itune,  ncgoemn, ncgoemx, ncgsemn,
      1        ncgsemx, ncgoe, ncgse, nmon, inewseed, ntop3, nstring,
-     1        iboolwrite, ntherm, nconfnotune
+     1        iboolwrite, ntherm, nconfnotune, ntotal
         
       real*8 ua, uas, uao, rm, fm, fmo, betag, dt, delitov, delitsq,
      1       pi, tpi, fmfac1, fmfac2, beta, time, esp, racc, delit,
@@ -82,12 +82,13 @@ c      call MPI_COMM_SIZE(MPI_COMM_WORLD,numprocs,ierr)
 *
 c      call MPI_BCAST(fix(0),nprocs*3,MPI_CHARACTER,0,
 c     &     MPI_COMM_WORLD,ierr)
+c      !read(27,*)nmd, nconf, ntraj, nmp, nadaptnmd
 *
       open(27,file='inp'//fix(myid),status='unknown')
       read(27,*)betag, fm
       read(27,*)nitov, delitov, nitsq, delitsq
       read(27,*)istart, nodat, iboolwrite
-      read(27,*)nmd, nconf, ntraj, nmp, nadaptnmd
+      read(27,*)nmd, nconf, ntraj, nstep, nmp, nadaptnmd, nadaptstep
       read(27,*)ncnf
       read(27,*)ntherm
       read(27,*)nconfnotune
@@ -122,10 +123,6 @@ c     &     MPI_COMM_WORLD,ierr)
       !Initialize..read files.. set params...call addressing...
       call init(istart,time,dt,nmd,nstep)
 *
-      nmd=nmd*nstep
-      nstep=1
-      dt=1.0D0/dfloat(nmd)
-*
       write(28,6000) version
       write(28,6001) mx,mt,nf,fm,betag,ntraj,nmd,dt,delit,eps
 ************************************************************************
@@ -133,13 +130,18 @@ c     &     MPI_COMM_WORLD,ierr)
 *     Main loop: hybrid monte carlo update                             *
 *                                                                      *
 ************************************************************************
+      if(nadaptstep.ne.1)then
+         nstep=1
+      endif
+*      
       nmt=0
 *
       do iconf=initconf+1, nconf
+         ntotal=0
+         nr=0
 *
          call unitar
 *
-         nr=0
          do iter=1,ntraj
             ncgomn=nitov
             ncgomx=0
@@ -149,40 +151,59 @@ c     &     MPI_COMM_WORLD,ierr)
             ncgoemx=0
             ncgsemn=nitsq
             ncgsemx=0
+************************************************************************
+*        The molecular dynamics trajectory                             *
+*        | ------- | ------ | ------ | ----- |                         *
+*        <----------------------------------->                         *
+*                         t=1.0                                        *
+*        <-----><----------><-----><--------->                         *
+*          nmd       nmd'     nmd''    nmd'''                          *  
+*              a/r         a/r    a/r        a/r                       *
+*        nstep such tunable nmd blocks of t'=1.0/nstep                 * 
+************************************************************************
 
             ilen=0
             nmd_min=nmd
 *
-            uo=u      !Copy old configutation in case of mc rejection
+            do istep=1,nstep
+               uo=u      !Copy old configutation in case of mc rejection
 *
-            dt=1.0D0/dfloat(nmd) !MC step size for
-                                                 !trajectory of size nmd which might have changed in previous
-                                                 !step
-            ilen=ilen+nmd !Keep track of actual number of steps taken to
-                          !complete t=1.0
+               dt=1.0D0/dfloat(nstep)/dfloat(nmd) !MC step size for
+                                                  !trajectory of size nmd which might have changed in previous
+                                                  !step
+               ilen=ilen+nmd !Keep track of actual number of steps taken to
+                             !complete t=1.0
 *
-            call traj(beta,dt,ncgomn,ncgomx,ncgsmn,ncgsmx,nmd, 
+               call traj(beta,dt,ncgomn,ncgomx,ncgsmn,ncgsmx,nmd, 
      1                ncgoe,ncgse,ene0, enef, nmt)    !Take nmd molecular steps
-*
-            ncgoemn=min(ncgoemn,ncgoe)
-            ncgoemx=max(ncgoemx,ncgoe)
-            ncgsemn=min(ncgsemn,ncgse)
-            ncgsemx=max(ncgsemx,ncgse)
-*
 
-            if(iconf.ge.nconfnotune)then
                call adaptstep(ene0,enef,nmd,nmd_new) !Tune nmd
 *
-               if(nmt.eq.0.and.nmp.eq.1)then 
+               ntotal=ntotal+1
+               if(nmt.eq.0.and.nmp.eq.1)then !Make changes to parameters if
+                                          !asked for
                   u=uo    !Copy back old config if rejected
+                  ua=uao  !Copy back old config if rejected
                   nr=nr+1 !increase reject counter
                endif 
-*
-               if(nadaptnmd.eq.1)then !tune nmd
+
+               ncgoemn=min(ncgoemn,ncgoe)
+               ncgoemx=max(ncgoemx,ncgoe)
+               ncgsemn=min(ncgsemn,ncgse)
+               ncgsemx=max(ncgsemx,ncgse)
+               if(nadaptnmd.eq.1.and.istep.lt.nstep)then !tune nmd
                   nmd=nmd_new
+                  if(nmd.lt.nmd_min)nmd_min=nmd
                endif
-            endif
+            enddo !nsteps done
 *
+            nmd=nmd_min !choose minimum nmd in previous nsteps 
+                        !as starting guess for next nsteps.
+            if(nadaptstep.eq.1)then
+               call adapttime(ene0,enef,nstep,nstep_new) !Choose the fixed
+*                                                        !value of nstep for the next cycle
+               nstep=nstep_new
+            endif
             nlen=ilen  !Total number of dt steps
             time=time+1.0D0
 ************************************************************************
@@ -195,6 +216,7 @@ c     &     MPI_COMM_WORLD,ierr)
 *        Write on the data file.                                       *
 ************************************************************************
             write(14,*)real(sact), real(wl), aimag(wl)
+            call flush
 ************************************************************************
 *        Write on the output file.                                     *
 ************************************************************************
@@ -202,9 +224,8 @@ c     &     MPI_COMM_WORLD,ierr)
      1                  ncgomn, ncgomx, ncgsmn, ncgsmx, 
      1                  ncgoemn, ncgoemx, ncgsemn, ncgsemx, 
      1                  dt, nlen, sact, wl, ene0, enef
-            call flush
          enddo
-         racc=1.0D0-dfloat(nr)/dfloat(ntraj)
+         racc=1.0D0-dfloat(nr)/dfloat(ntotal)
          write(28,6003)racc
 ************************************************************************
 *                                                                      *
@@ -257,7 +278,6 @@ c     &     MPI_COMM_WORLD,ierr)
      1           nstep, istart, time, nmd)
             close(12)
          endif
-         call flush
 
       enddo !end loop over iconf
 *      
