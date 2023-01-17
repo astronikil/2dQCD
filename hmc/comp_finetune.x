@@ -1,5 +1,9 @@
 #! /bin/bash
 
+module load gcc/9.2.0
+module load cpu/0.15.4
+module load netlib-lapack/3.8.0
+
 
 gfortran -O3 -o hmc \
 ../hmc/main_finetune.F \
@@ -29,8 +33,8 @@ gfortran -O3 -o hmc \
 ../rvector/phiinit.F \
 ../rvector/gnoise.F \
 ../rvector/ranv.F \
-../ritz_rajamani/submain.f \
-../ritz_rajamani/ddag.F \
+../ritz_rajamani/submain.F \
+../ritz_rajamani/DDAG.F \
 ../ritz_rajamani/random.f \
 ../ritz_rajamani/mathtools.f \
 ../ritz_rajamani/sort.f \
