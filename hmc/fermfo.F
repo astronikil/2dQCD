@@ -63,6 +63,7 @@
 #include "size.h"
 #include "improve.h"
       integer l, ic, jc, iup, idn, lmu
+      real*8 xaniso
       complex*16 zi, rgu, rgd
       complex*16 x(nc,nc)
       complex*16 u, ud, v(nc,nc,mb), w(nc,nspr,mv)
@@ -70,6 +71,7 @@
       complex*16 vt1(nc), vt2(nc)
       common /configsmr/ u(nc,nc,mb)
       common /iupidn/ iup(mb), idn(mb)
+      common /anisotropy/ xaniso
       zi=(0.0D0,1.0D0)
 *
       v=0.0
@@ -84,6 +86,7 @@
          vt1 = matmul(x, w(:, 1, lmu))
          vt2 = matmul(x, w(:, 2, lmu))
 
+         ! spin trace over (1+\sigma_i).sigma_3.v
          do ic=1, nc
             do jc=1, nc
                v(ic,jc,l+mux)=
@@ -91,8 +94,8 @@
      1        +conjg(w(jc, 2, l))*(vx1(ic)-vx2(ic))
 
                v(ic,jc,l+mut)=
-     1         conjg(w(jc, 1, l))*(vt1(ic)+zi*vt2(ic)) 
-     1        +conjg(w(jc, 2, l))*(zi*vt1(ic)-vt2(ic))
+     1         conjg(w(jc, 1, l))*(vt1(ic)/xaniso**2+zi*vt2(ic)/xaniso) 
+     1        +conjg(w(jc, 2, l))*(zi*vt1(ic)/xaniso-vt2(ic)/xaniso**2)
             enddo 
          enddo
       enddo

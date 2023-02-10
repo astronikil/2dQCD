@@ -20,7 +20,7 @@
       real*8 ua, uas, uao, rm, fm, fmo, betag, dt, delitov, delitsq,
      1       pi, tpi, fmfac1, fmfac2, beta, time, esp, racc, delit,
      1       ene0, enef, tmon, tmonsmr, rmo, start, finish, avd, erd,
-     1       startcur, finishcur, h1, zeta
+     1       startcur, finishcur, h1, zeta, xaniso
 
       complex*16 u, ud, uo, tpiz, wl, zi, sact, sact2, ppb
 
@@ -41,6 +41,7 @@
 *
       common /random/ iseed(4)
       common /consts/ pi, tpi, tpiz, zi
+      common /anisotropy/ xaniso
       common /quark/ rm
       common /cnfno/ncnf
 ************************************************************************
@@ -84,7 +85,7 @@ c      call MPI_BCAST(fix(0),nprocs*3,MPI_CHARACTER,0,
 c     &     MPI_COMM_WORLD,ierr)
 *
       open(27,file='inp'//fix(myid),status='unknown')
-      read(27,*)betag, fm
+      read(27,*)betag, fm, xaniso
       read(27,*)nitov, delitov, nitsq, delitsq
       read(27,*)istart, nodat, iboolwrite
       read(27,*)nmd, nconf, ntraj, nmp, nadaptnmd
@@ -98,8 +99,8 @@ c     &     MPI_COMM_WORLD,ierr)
       read(31,*)initconf
       close(31)
 *      
-      beta = dfloat(mx*mt)/betag
-      rm = 2.0D0 - fm
+      beta = dfloat(mx*mt)/betag/xaniso
+      rm = 1.0D0 + 1.0D0/xaniso - fm
 *
       delitov=delitov*delitov
       delitsq=delitsq*delitsq

@@ -32,7 +32,7 @@
 #include "size.h"
 #include "improve.h"
       integer l, ic, jc, iup, idn, lmu
-      real*8 rm
+      real*8 rm, xaniso
       complex*16 zi
       complex*16 x(nc,nc)
       complex*16 u, ud, v(nc,nspr,mv), w(nc,nspr,mv)
@@ -43,6 +43,7 @@
       common /configsmr/ u(nc,nc,mb)
       common /donfigsmr/ ud(nc,nc,mb)
       common /iupidn/ iup(mb), idn(mb)
+      common /anisotropy/ xaniso
       common /quark/ rm
       zi=(0.0D0,1.0D0)
 *
@@ -81,15 +82,15 @@
          wt2 = matmul(x, w(:, 2, lmu))
 
          v(:,1,l) = v(:,1,l)
-     1    -vt1 - zi * vt2
+     1    -vt1/xaniso**2 - zi * vt2/xaniso
      1    -vx1 +      vx2
-     1    -wt1 + zi * wt2
+     1    -wt1/xaniso**2 + zi * wt2/xaniso
      1    -wx1 -      wx2
 
          v(:,2,l) = v(:,2,l)
-     1    +zi*vt1 -   vt2
+     1    +zi*vt1/xaniso -   vt2/xaniso**2
      1    +vx1 -      vx2
-     1    -zi*wt1 -   wt2
+     1    -zi*wt1/xaniso -   wt2/xaniso**2
      1    -wx1 -      wx2
 
 
@@ -109,7 +110,7 @@
 #include "size.h"
 #include "improve.h"
       integer l, ic, jc, iup, idn, lmu
-      real*8 rm
+      real*8 rm, xaniso
       complex*16 zi
       complex*16 x(nc,nc)
       complex*16 u, ud, v(nc,nspr,mv), w(nc,nspr,mv)
@@ -120,6 +121,7 @@
       common /configsmr/ u(nc,nc,mb)
       common /donfigsmr/ ud(nc,nc,mb)
       common /iupidn/ iup(mb), idn(mb)
+      common /anisotropy/ xaniso
       common /quark/ rm
       zi=(0.0D0,1.0D0)
 *
@@ -158,15 +160,15 @@
          wt2 = matmul(x, w(:, 2, lmu))
 
          v(:,1,l) = v(:,1,l)
-     1    -vt1 + zi * vt2
+     1    -vt1/xaniso**2 + zi * vt2/xaniso
      1    -vx1 -      vx2
-     1    -wt1 - zi * wt2
+     1    -wt1/xaniso**2 - zi * wt2/xaniso
      1    -wx1 +      wx2
 
          v(:,2,l) = v(:,2,l)
-     1   -zi*vt1 -    vt2
+     1   -zi*vt1/xaniso -    vt2/xaniso**2
      1   -vx1 -       vx2
-     1   +zi*wt1 -    wt2
+     1   +zi*wt1/xaniso -    wt2/xaniso**2
      1   +wx1 -       wx2
       enddo
 !$OMP end parallel do
