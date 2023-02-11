@@ -15,12 +15,13 @@
      1        ilen, istep, l, nmd_min, nstep_new, nmd_new, initconf,
      1        iconf, nconf, itune,  ncgoemn, ncgoemx, ncgsemn,
      1        ncgsemx, ncgoe, ncgse, nmon, inewseed, ntop3, nstring,
-     1        iboolwrite, ntherm, nconfnotune
+     1        iboolwrite, ntherm, nconfnotune, nvec
         
       real*8 ua, uas, uao, rm, fm, fmo, betag, dt, delitov, delitsq,
      1       pi, tpi, fmfac1, fmfac2, beta, time, esp, racc, delit,
      1       ene0, enef, tmon, tmonsmr, rmo, start, finish, avd, erd,
-     1       startcur, finishcur, h1, zeta, xaniso
+     1       startcur, finishcur, h1, zeta, xaniso, dFferm,
+     1       dFferm2
 
       complex*16 u, ud, uo, tpiz, wl, zi, sact, sact2, ppb
 
@@ -84,6 +85,8 @@ c      call MPI_COMM_SIZE(MPI_COMM_WORLD,numprocs,ierr)
 c      call MPI_BCAST(fix(0),nprocs*3,MPI_CHARACTER,0,
 c     &     MPI_COMM_WORLD,ierr)
 *
+      nvec=100
+*      
       open(27,file='inp'//fix(myid),status='unknown')
       read(27,*)betag, fm, xaniso
       read(27,*)nitov, delitov, nitsq, delitsq
@@ -92,6 +95,7 @@ c     &     MPI_COMM_WORLD,ierr)
       read(27,*)ncnf
       read(27,*)ntherm
       read(27,*)nconfnotune
+      read(27,*)nvec
       close(27)
 *
       write(sio,6102)fix(myid)
@@ -121,6 +125,7 @@ c     &     MPI_COMM_WORLD,ierr)
       open(28,file='outrun'//fix(myid),access='append',status='old')
 *     
       !Initialize..read files.. set params...call addressing...
+      nstep=1
       call init(istart,time,dt,nmd,nstep)
 *
       nmd=nmd*nstep
@@ -215,25 +220,32 @@ c     &     MPI_COMM_WORLD,ierr)
 
          if(iconf.gt.ntherm)then
 
-         write(eeigstring,6103)fix(myid),iconf
-         write(ebackstring,6104)fix(myid),iconf
-         write(ehiststring,6105)fix(myid),iconf
-         open(55,file=eeigstring,status='new')
-         open(88,file=ebackstring,status='new')
-         open(99,file=ehiststring,status='new')
+c         write(eeigstring,6103)fix(myid),iconf
+c         write(ebackstring,6104)fix(myid),iconf
+c         write(ehiststring,6105)fix(myid),iconf
+c         open(55,file=eeigstring,status='new')
+c         open(88,file=ebackstring,status='new')
+c         open(99,file=ehiststring,status='new')
+c*
+c         call findeigs
+c*
+c         close(55)
+c         close(88)
+c         close(99)
+c*         
+c         write(messtring,6106)fix(myid),iconf
+c         open(36,file=messtring,status='new')
+c*
+c         call meson
+c*
+c         close(36)
 *
-         call findeigs
-*
-         close(55)
-         close(88)
-         close(99)
-*         
-         write(messtring,6106)fix(myid),iconf
-         open(36,file=messtring,status='new')
-*
-         call meson
-*
-         close(36)
+         call dbydaniso(dFferm)
+
+         call dbydaniso_stoch(dFferm2, nvec)
+
+         write(74,*)dFferm, dFferm2, xaniso
+         call flush
 
          endif
 ************************************************************************

@@ -1,8 +1,8 @@
 #! /bin/bash
 
-module load gcc/9.2.0
-module load cpu/0.15.4
-module load netlib-lapack/3.8.0
+#module load gcc/9.2.0
+#module load cpu/0.15.4
+#module load netlib-lapack/3.8.0
 
 gfortran -O3 -o hmc \
 ../hmc/main_meas2.F \
@@ -14,6 +14,7 @@ gfortran -O3 -o hmc \
 ../hmc/energy.F \
 ../hmc/evol.F \
 ../hmc/fermfo.F \
+../hmc/dbydaniso.F \
 ../dslash/Doverlap.F \
 ../dslash/Dwilson.F \
 ../dslash/ferm.F \
@@ -32,6 +33,7 @@ gfortran -O3 -o hmc \
 ../rvector/phiinit.F \
 ../rvector/gnoise.F \
 ../rvector/ranv.F \
+../rvector/z2noise.F \
 ../ritz_rajamani/submain.F \
 ../ritz_rajamani/DDAG.F \
 ../ritz_rajamani/random.f \
