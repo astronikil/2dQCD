@@ -50,8 +50,6 @@
          enddo
 *
       enddo
-
-      dF = 2.0D0*dF  ! factor 2 due to taking real part
       return
       end
       subroutine dbydaniso_stoch(dF, er, nvec)
@@ -123,16 +121,6 @@
      1  nf*sqrt(er/dfloat(nvec)-dF**2/dfloat(nvec*nvec))/sqrt(nvec*1.0) 
       dF = nf*dF/dfloat(nvec)  ! factor 2 due to taking real part
       return
-      end
-      subroutine projchiralz2(r)
-#include "size.h"
-      integer l
-      complex*16 r(nc,nspr,mv)
-*
-      do l=1,mv
-         r(:,2,l)=0.0D0
-      enddo
-*
       end
       subroutine dfmvbyaniso(w, v)
 #include "size.h"

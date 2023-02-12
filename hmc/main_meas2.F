@@ -21,7 +21,7 @@
      1       pi, tpi, fmfac1, fmfac2, beta, time, esp, racc, delit,
      1       ene0, enef, tmon, tmonsmr, rmo, start, finish, avd, erd,
      1       startcur, finishcur, h1, zeta, xaniso, dFferm,
-     1       dFferm2
+     1       dFferm2, eFferm2
 
       complex*16 u, ud, uo, tpiz, wl, zi, sact, sact2, ppb
 
@@ -33,6 +33,7 @@
       character*19 ehiststring
       character*19 ebackstring
       character*19 messtring
+      character*19 frestring
 *
       common /param_overlap/ delitov, nitov
       common /param_sqrt/ delitsq, nitsq
@@ -241,10 +242,10 @@ c*
          close(36)
 *
          write(frestring,6107)fix(myid),iconf
-         open(37,file=messtring,status='new')
+         open(37,file=frestring,status='new')
 *         
          call plaq(esp)
-         esp=2.0D0*beta*es/xaniso
+         esp=2.0D0*beta*esp/xaniso
 
          call dbydaniso(dFferm)
 
