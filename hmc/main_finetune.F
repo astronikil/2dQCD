@@ -101,7 +101,7 @@ c      !read(27,*)nmd, nconf, ntraj, nmp, nadaptnmd
       close(31)
 *      
       beta = dfloat(mx*mt)/betag/xaniso
-      rm = 1.0D0 + 1.0D0/xaniso - fm
+      rm = 1.0D0 + 1.0D0/xaniso**2 - fm
 *
       delitov=delitov*delitov
       delitsq=delitsq*delitsq

@@ -104,7 +104,7 @@ c     &     MPI_COMM_WORLD,ierr)
       close(31)
 *      
       beta = dfloat(mx*mt)/betag/xaniso
-      rm = 1.0D0 + 1.0D0/xaniso - fm
+      rm = 1.0D0 + 1.0D0/xaniso**2 - fm
 *
       delitov=delitov*delitov
       delitsq=delitsq*delitsq
@@ -233,19 +233,26 @@ c         close(55)
 c         close(88)
 c         close(99)
 c*         
-c         write(messtring,6106)fix(myid),iconf
-c         open(36,file=messtring,status='new')
-c*
-c         call meson
-c*
-c         close(36)
+         write(messtring,6106)fix(myid),iconf
+         open(36,file=messtring,status='new')
 *
+         call meson
+*
+         close(36)
+*
+         write(frestring,6107)fix(myid),iconf
+         open(37,file=messtring,status='new')
+*         
+         call plaq(esp)
+         esp=2.0D0*beta*es/xaniso
+
          call dbydaniso(dFferm)
 
-         call dbydaniso_stoch(dFferm2, nvec)
+         call dbydaniso_stoch(dFferm2, eFferm2, nvec)
 
-         write(74,*)dFferm, dFferm2, xaniso
+         write(37,*)dFferm, dFferm2,  eFferm2, esp, xaniso
          call flush
+         close(37)
 
          endif
 ************************************************************************
@@ -309,6 +316,7 @@ c      call MPI_FINALIZE(ierr)
  6104 format('./EIG/back',A3,'.',i5.5)     
  6105 format('./EIG/hist',A3,'.',i5.5)     
  6106 format('./MES/corr',A3,'.',i5.5)     
+ 6107 format('./MES/free',A3,'.',i5.5)     
 
  7000 format(e14.6)
       end program
