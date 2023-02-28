@@ -1,8 +1,8 @@
 #! /bin/bash
 
-#module load gcc/9.2.0
-#module load cpu/0.15.4
-#module load netlib-lapack/3.8.0
+module load gcc/9.2.0
+module load cpu/0.15.4
+module load netlib-lapack/3.8.0
 
 gfortran -O3 -o hmc \
 ../hmc/main_meas2.F \
