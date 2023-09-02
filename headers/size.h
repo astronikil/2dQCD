@@ -16,7 +16,7 @@ c      include "mpif.h"
       integer, parameter :: nvsize=nspr*nc*mv
       integer, parameter :: ncs=nspr*nc, mvs=ncs*mv, mvs2=2*mvs
 
-      integer, parameter :: nf=2
+      integer, parameter :: nf=1
       integer, parameter :: nfhe=nf/2, nfho=(nf-1)/2
 
       integer, parameter :: nprocs=4000, mprocs=1
