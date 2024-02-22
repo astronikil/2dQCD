@@ -30,7 +30,7 @@
             emat=matmul(dmat,smat)
             dmat=matmul(emat,bmat)
             c2pt(lt,i2pt)=(0.0D0,0.0D0)
-            do ic=1,nc
+            do ic=1,ncr
                c2pt(lt,i2pt)=c2pt(lt,i2pt) + dmat(ic,ic)
             enddo
          enddo

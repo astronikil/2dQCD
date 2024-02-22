@@ -35,17 +35,17 @@
       end
 *      
 c      program main
-c#include "size.h"
-c      integer ic, jc, l
-c      complex*16 tgen
-c      common /gellmann/ tgen(nc, nc, nca)
-c
-c      call sungenerators
-c
-c      do l=1,nca
-c         do ic=1,nc
-c            write(*,*)(tgen(ic,jc,l),jc=1,nc)
-c         enddo
-c         write(*,*)'###########################'
-c      enddo
-c      end
+cinclude "size.h"
+c     integer ic, jc, l
+c     complex*16 tgen
+c     common /gellmann/ tgen(nc, nc, nca)
+
+c     call sungenerators
+
+c     do l=1,nca
+c        do ic=1,nc
+c           write(*,*)(tgen(ic,jc,l),jc=1,nc)
+c        enddo
+c        write(*,*)'###########################'
+c     enddo
+c     end

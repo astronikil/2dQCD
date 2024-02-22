@@ -2,7 +2,7 @@
 #include "size.h"
       integer ispin, ix, it, ncg, ncgs, ncg1, ncg2, l
       complex*16 gp(mv,ncs,ncs), v, w, x
-      common /wrkry/ v(nc,nspr,mv), w(nc,nspr,mv), x(nc,nspr,mv)
+      common /wrkry/ v(ncr,nspr,mv), w(ncr,nspr,mv), x(ncr,nspr,mv)
 *
       do ispin=1, ncs
          call source(v,ix,it,ispin)

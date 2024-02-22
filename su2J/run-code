@@ -1,0 +1,2 @@
+#gfortran -O3 main.f random.f gstart.f su2alg.f fundtoJ.f -L/usr/local/lib -llapack -lblas -o su2J
+gfortran -O3 main.f random.f gstart.f su2alg.f fundtoJ.f -llapack -o su2J

@@ -7,6 +7,7 @@
 *                                                                       *
 *************************************************************************
       call smear(nlev)
+      call fundtoJ
       call linkc
 c      call clover
 *
@@ -21,8 +22,8 @@ c      call clover
 #include "size.h"
       integer iup, idn, mu, nu, l ,nn, ndo, ic, jc
       complex*16 u, ud
-      common /configsmr/ u(nc,nc,mb)
-      common /donfigsmr/ ud(nc,nc,mb)
+      common /configsmr_irrep/ u(ncr,ncr,mb)
+      common /donfigsmr_irrep/ ud(ncr,ncr,mb)
       common /iupidn/ iup(mb), idn(mb)
 *
       do mu=1,nd
@@ -30,8 +31,8 @@ c      call clover
          do l=1,mv
             nn=l+nu
             ndo=idn(nn)+nu
-            do ic=1,nc
-               do jc=1,nc
+            do ic=1,ncr
+               do jc=1,ncr
                   ud(ic,jc,nn)=conjg(u(jc,ic,ndo))
                enddo
             enddo

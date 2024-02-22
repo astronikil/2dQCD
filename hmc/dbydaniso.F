@@ -128,11 +128,11 @@
       integer l, iup, idn, lmu
       real*8 xaniso
       complex*16 zi
-      complex*16 x(nc,nc)
-      complex*16 u, ud, v(nc,nspr,mv), w(nc,nspr,mv)
-      complex*16 vt1(nc), vt2(nc)
-      common /configsmr/ u(nc,nc,mb)
-      common /donfigsmr/ ud(nc,nc,mb)
+      complex*16 x(ncr,ncr)
+      complex*16 u, ud, v(ncr,nspr,mv), w(ncr,nspr,mv)
+      complex*16 vt1(ncr), vt2(ncr)
+      common /configsmr_irrep/ u(ncr,ncr,mb)
+      common /donfigsmr_irrep/ ud(ncr,ncr,mb)
       common /iupidn/ iup(mb), idn(mb)
       common /anisotropy/ xaniso
       zi=(0.0D0,1.0D0)

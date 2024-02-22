@@ -7,12 +7,12 @@
 *************************************************************
 #include "size.h"
       integer ic, is
-      complex*16 sig, zi, sid(nc,nc), s2g(nspr,nspr,4)
-      common /paulimat/ sig(nspr*nc,nspr*nc,4)
+      complex*16 sig, zi, sid(ncr,ncr), s2g(nspr,nspr,4)
+      common /paulimat/ sig(nspr*ncr,nspr*ncr,4)
       zi=(0.0,1.0)
 *      
       sid=0.0D0
-      do ic=1,nc
+      do ic=1,ncr
          sid(ic,ic)=1.0D0
       enddo
 *
@@ -39,14 +39,14 @@
       subroutine dirprod(a,b,c)
 #include "size.h"
       integer ics, is, ic, jcs, js, jc
-      complex*16 a(nc,nc), b(nspr,nspr), c(ncs,ncs)
+      complex*16 a(ncr,ncr), b(nspr,nspr), c(ncs,ncs)
       ics=0
       do is=1,nspr
-         do ic=1,nc
+         do ic=1,ncr
             ics=ics+1
             jcs=0
             do js=1,nspr
-               do jc=1,nc
+               do jc=1,ncr
                   jcs=jcs+1
                   c(jcs,ics)=a(jc,ic)*b(js,is)
                enddo

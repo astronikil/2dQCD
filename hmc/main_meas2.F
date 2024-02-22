@@ -45,6 +45,7 @@
       common /consts/ pi, tpi, tpiz, zi
       common /anisotropy/ xaniso
       common /quark/ rm
+      common /quark_ov/ fmo
       common /cnfno/ncnf
 ************************************************************************
 *                                                                      *
@@ -89,7 +90,7 @@ c     &     MPI_COMM_WORLD,ierr)
       nvec=100
 *      
       open(27,file='inp'//fix(myid),status='unknown')
-      read(27,*)betag, fm, xaniso
+      read(27,*)betag, fm, fmo, xaniso
       read(27,*)nitov, delitov, nitsq, delitsq
       read(27,*)istart, nodat, iboolwrite
       read(27,*)nmd, nconf, ntraj, nmp, nadaptnmd
@@ -135,6 +136,7 @@ c     &     MPI_COMM_WORLD,ierr)
 *
       write(28,6000) version
       write(28,6001) mx,mt,nf,fm,betag,ntraj,nmd,dt,delit,eps
+      call flush
 ************************************************************************
 *                                                                      *
 *     Main loop: hybrid monte carlo update                             *
@@ -219,7 +221,7 @@ c     &     MPI_COMM_WORLD,ierr)
 *                                                                      *
 ************************************************************************
 
-         if(iconf.gt.ntherm)then
+c         if(iconf.gt.ntherm)then
 
 c         write(eeigstring,6103)fix(myid),iconf
 c         write(ebackstring,6104)fix(myid),iconf
@@ -234,28 +236,28 @@ c         close(55)
 c         close(88)
 c         close(99)
 c*         
-         write(messtring,6106)fix(myid),iconf
-         open(36,file=messtring,status='new')
+ccc         write(messtring,6106)fix(myid),iconf
+ccc         open(36,file=messtring,status='new')
 *
-         call meson
+ccc         call meson
 *
-         close(36)
+ccc         close(36)
 *
-         write(frestring,6107)fix(myid),iconf
-         open(37,file=frestring,status='new')
-*         
-         call plaq(esp)
-         esp=2.0D0*beta*esp/xaniso
+c         write(frestring,6107)fix(myid),iconf
+c         open(37,file=frestring,status='new')
+c*         
+c         call plaq(esp)
+c         esp=2.0D0*beta*esp/xaniso
 
-         call dbydaniso(dFferm)
+c         call dbydaniso(dFferm)
+c
+c         call dbydaniso_stoch(dFferm2, eFferm2, nvec)
+c
+c         write(37,*)dFferm, dFferm2,  eFferm2, esp, xaniso
+c         call flush
+c         close(37)
 
-         call dbydaniso_stoch(dFferm2, eFferm2, nvec)
-
-         write(37,*)dFferm, dFferm2,  eFferm2, esp, xaniso
-         call flush
-         close(37)
-
-         endif
+c         endif
 ************************************************************************
 *                                                                      *
 *        Write out the final configuration 			       *

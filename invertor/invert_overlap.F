@@ -12,7 +12,7 @@
       complex*16 dtp, ddtp, p, r, x
       complex*16 mydot
       real*8 delit, relit, alphan, alphad, betan, betad, beta, alpha
-      real*8 rnorm
+      real*8 rnorm, rcheck
 *
       common /param_overlap/ delit, nitrc
       common /arrays_overlap/ r(mvs), p(mvs), x(mvs),
@@ -74,6 +74,13 @@
       ddtp=ddtp*rnorm
 
       xsol=x
+
+      rcheck=real(mydot(rphi,xsol))
+      if(rcheck.lt.0.0)then
+         write(*,*)'!!!!!!!!!!!-ve norm alert!!!!!!!!'
+         write(*,*)rcheck,nitcg,ncgs
+         stop
+      endif
 *
       return
       end

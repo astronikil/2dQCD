@@ -30,7 +30,7 @@
 #include "size.h"
       integer l, ifl
       complex*16 rphi
-      common /phi/ rphi(nc,nspr,mv,nf)
+      common /phi/ rphi(ncr,nspr,mv,nf)
 *
       do ifl=1,nf
          do l=1,mv

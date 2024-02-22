@@ -1,7 +1,7 @@
       subroutine H_wilson(w,v)
 #include "size.h"
       integer l
-      complex*16 v(nc,nspr,mv), w(nc,nspr,mv)
+      complex*16 v(ncr,nspr,mv), w(ncr,nspr,mv)
 *
       call fmv_wilson(w,v)
 *
@@ -34,14 +34,14 @@
       integer l, ic, jc, iup, idn, lmu
       real*8 rm, xaniso
       complex*16 zi
-      complex*16 x(nc,nc)
-      complex*16 u, ud, v(nc,nspr,mv), w(nc,nspr,mv)
-      complex*16 vx1(nc), vx2(nc)
-      complex*16 vt1(nc), vt2(nc)
-      complex*16 wx1(nc), wx2(nc)
-      complex*16 wt1(nc), wt2(nc)
-      common /configsmr/ u(nc,nc,mb)
-      common /donfigsmr/ ud(nc,nc,mb)
+      complex*16 x(ncr,ncr)
+      complex*16 u, ud, v(ncr,nspr,mv), w(ncr,nspr,mv)
+      complex*16 vx1(ncr), vx2(ncr)
+      complex*16 vt1(ncr), vt2(ncr)
+      complex*16 wx1(ncr), wx2(ncr)
+      complex*16 wt1(ncr), wt2(ncr)
+      common /configsmr_irrep/ u(ncr,ncr,mb)
+      common /donfigsmr_irrep/ ud(ncr,ncr,mb)
       common /iupidn/ iup(mb), idn(mb)
       common /anisotropy/ xaniso
       common /quark/ rm
@@ -112,14 +112,14 @@
       integer l, ic, jc, iup, idn, lmu
       real*8 rm, xaniso
       complex*16 zi
-      complex*16 x(nc,nc)
-      complex*16 u, ud, v(nc,nspr,mv), w(nc,nspr,mv)
-      complex*16 vx1(nc), vx2(nc)
-      complex*16 vt1(nc), vt2(nc)
-      complex*16 wx1(nc), wx2(nc)
-      complex*16 wt1(nc), wt2(nc)
-      common /configsmr/ u(nc,nc,mb)
-      common /donfigsmr/ ud(nc,nc,mb)
+      complex*16 x(ncr,ncr)
+      complex*16 u, ud, v(ncr,nspr,mv), w(ncr,nspr,mv)
+      complex*16 vx1(ncr), vx2(ncr)
+      complex*16 vt1(ncr), vt2(ncr)
+      complex*16 wx1(ncr), wx2(ncr)
+      complex*16 wt1(ncr), wt2(ncr)
+      common /configsmr_irrep/ u(ncr,ncr,mb)
+      common /donfigsmr_irrep/ ud(ncr,ncr,mb)
       common /iupidn/ iup(mb), idn(mb)
       common /anisotropy/ xaniso
       common /quark/ rm

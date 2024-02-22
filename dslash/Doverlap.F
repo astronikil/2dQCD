@@ -1,15 +1,19 @@
       subroutine H_overlap(v,w,ncg)
 #include "size.h"
       integer ncg, l
-      real*8 r1, r2
-      complex*16 v(nc,nspr,mv), w(nc,nspr,mv)
+      real*8 r1, r2, fmo
+      complex*16 v(ncr,nspr,mv), w(ncr,nspr,mv)
       complex*16 x, y
-      common /fermwrk1/ x(nc,nspr,mv), y(nc,nspr,mv)
+      complex*16 mydot
+      common /quark_ov/ fmo
+      common /fermwrk1/ x(ncr,nspr,mv), y(ncr,nspr,mv)
 *
-      r1=1.0D0/2.0D0
-      r2=1.0D0/2.0D0
+      r1=0.5D0*(1.0D0+fmo)
+      r2=0.5D0*(1.0D0-fmo)
       call H_wilson(v,x)
       call sqrtoverlap(x,y,ncg)
+
+c      write(*,*)'##### eps=',mydot(y,y)/mydot(v,v)
 *
       do l=1,mv
          w(:,1,l) =  r1*v(:,1,l) + r2*y(:,1,l)
@@ -22,9 +26,9 @@
 #include "size.h"
       integer ncg, l
       real*8 r1, r2
-      complex*16 v(nc,nspr,mv), w(nc,nspr,mv)
+      complex*16 v(ncr,nspr,mv), w(ncr,nspr,mv)
       complex*16 x, y
-      common /fermwrk1/ x(nc,nspr,mv), y(nc,nspr,mv)
+      common /fermwrk1/ x(ncr,nspr,mv), y(ncr,nspr,mv)
 *
       call H_wilson(v,x)
       call sqrtoverlap(x,w,ncg)
@@ -39,9 +43,9 @@
 #include "size.h"
       integer ncg, l
       real*8 r1, r2
-      complex*16 v(nc,nspr,mv), w(nc,nspr,mv)
+      complex*16 v(ncr,nspr,mv), w(ncr,nspr,mv)
       complex*16 x, y
-      common /fermwrk1/ x(nc,nspr,mv), y(nc,nspr,mv)
+      common /fermwrk1/ x(ncr,nspr,mv), y(ncr,nspr,mv)
 *      
       do l=1,mv
          w(:,1,l) =  v(:,1,l)
