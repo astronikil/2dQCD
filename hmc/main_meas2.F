@@ -24,6 +24,7 @@
      1       dFferm2, eFferm2
 
       complex*16 u, ud, uo, tpiz, wl, zi, sact, sact2, ppb
+      complex*16 ztw
 
       integer v1,v2,v3,iproc,ierr
       character tt1,tt2,tt3,fix(0:nprocs-1)*3
@@ -42,6 +43,7 @@
       common /oldconf/uo(nc,nc,mb)
 *
       common /random/ iseed(4)
+      common /twisted/ztw(mv,-nd:nd ,-nd:nd)
       common /consts/ pi, tpi, tpiz, zi
       common /anisotropy/ xaniso
       common /quark/ rm
@@ -107,6 +109,10 @@ c     &     MPI_COMM_WORLD,ierr)
 *      
       beta = dfloat(mx*mt)/betag/xaniso
       rm = 1.0D0 + 1.0D0/xaniso**2 - fm
+
+      ztw=(1.0D0,0.0D0)
+      ztw(1,2,1)=(-1.0D0,0.0D0)
+      ztw(1,1,2)=conjg(ztw(1,2,1))
 *
       delitov=delitov*delitov
       delitsq=delitsq*delitsq
@@ -323,3 +329,7 @@ c      call MPI_FINALIZE(ierr)
 
  7000 format(e14.6)
       end program
+      subroutine puttwist
+      common /newold/ ino(mv)
+      common /iupidn/ iup(mv,nd), idn(mv,nd)
+      end

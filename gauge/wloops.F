@@ -8,11 +8,12 @@
       integer l, ll, l1, l2, ii, mu, nu, m, iup, idn
       integer ic, jc
       integer LR
-      complex*16 u, ud
+      complex*16 u, ud, ztw
       complex*16 v(nc,nc), w(nc,nc)
       common /config/ u(nc,nc,mb)
       common /donfig/ ud(nc,nc,mb)
       common /iupidn/ iup(mb), idn(mb)
+      common /twisted/ztw(mv,nd,nd)
 *
       integer MVA(2,2)
       data MVA /0,1, 1,0/
