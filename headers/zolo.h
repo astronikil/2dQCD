@@ -5,7 +5,7 @@
 c          nzolmax has to be changed in subroutine invert_overlap_shifted
 c          The current value is 30 
 c
-      real*8 pz(nzol), rz(nzol)  
+      real*8 pz(nzol), rz(0:nzol)  
       real*8 p_n1by2(nzol_n1by2), r_n1by2(0:nzol_n1by2)
       real*8 p_p1by4(nzol_p1by4), r_p1by4(0:nzol_p1by4)
 

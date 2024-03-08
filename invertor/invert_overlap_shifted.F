@@ -1,4 +1,4 @@
-      subroutine invert_overlap_shifted(rphi,nzolin,nitcg)
+      subroutine invert_overlap_shifted(rphi,nzolin,nitcg,ncgs)
 ************************************************************************
 *                                                                      *
 *     Finds the the inverse of H^2+p_i for multiple p_i.               *
@@ -8,7 +8,7 @@
 c#include "zolo.h"
       integer, parameter :: nzolmax=30
       real*8, parameter :: tny=1.0E-15
-      integer kzol, l, nitrc, nitcg, ncgs, nx, izol
+      integer kzol, l, nitrc, nitcg, ncgs, nx, izol, nzolin
       complex*16 pz, rz
       complex*16 ps, xs
       complex*16 p, r, x, dtp, ddtp
@@ -44,8 +44,8 @@ c#include "zolo.h"
          x(l)=(0.0D0,0.0D0) 
          r(l)=rphinorm(l)
          p(l)=rphinorm(l)
-         xs(l,1:nzol)=(0.0D0,0.0D0)
-         ps(l,1:nzol)=rphinorm(l)
+         xs(l,1:kzol)=(0.0D0,0.0D0)
+         ps(l,1:kzol)=rphinorm(l)
       end do
 *
       alphan=real(mydot(r,r))
@@ -132,4 +132,4 @@ c#include "zolo.h"
       ps=ps*rnorm
 
       return
-      end subroutine  invert_wilson_shifted
+      end subroutine  invert_overlap_shifted

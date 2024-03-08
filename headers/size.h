@@ -5,7 +5,7 @@
 *************************************************************************
       implicit none
 c      include "mpif.h"
-      integer, parameter :: mx=8, mt=8, nd=2
+      integer, parameter :: mx=4, mt=4, nd=2
 
 c     nc=2 will remain since we want work with SU(2)
 c     ncr is the size of the representation of the fermions and n=2j+1 where j is the representation.
@@ -21,7 +21,7 @@ c
       integer, parameter :: mux=0, mut=mv
       integer, parameter :: ncs=nspr*ncr, mvs=ncs*mv, mvs2=2*mvs
 
-      integer, parameter :: nf=2
+      integer, parameter :: nf=1
       integer, parameter :: nfhe=nf/2, nfho=(nf-1)/2
 
       integer, parameter :: nprocs=4000, mprocs=1

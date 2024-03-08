@@ -1,43 +1,45 @@
-      subroutine H_overlap_pow_n1by2(v,w,ncg)
+      subroutine H_overlap_pow_n1by2(v,w,ncgo,ncgw)
 #include "size.h"
 #include "zolo.h"
-      integer ncg, izol
+      integer ncgo, ncgw, izol
       complex*16 v(mvs), w(mvs)
-      complex*16 pz, rz, ps, xs
-      common /zolvals/ pz(nzolmax), rz(nzolmax)
+      complex*16 ps, xs
+      real*8 pzov, rzov
+      common /zolvals/ pzov(nzolmax), rzov(nzolmax)
       common /wrkforce_ovshift/ ps(mvs,nzolmax), xs(mvs,nzolmax)
 *
-      pz(1:nzol_n1by2) = p_n1by2(1:nzol_n1by2)
-      rz(1:nzol_n1by2) = r_n1by2(1:nzol_n1by2)
+      pzov(1:nzol_n1by2) = p_n1by2(1:nzol_n1by2)
+      rzov(1:nzol_n1by2) = r_n1by2(1:nzol_n1by2)
 
-      call invert_overlap_shifted(v,nzol_n1by2,ncg)
+      call invert_overlap_shifted(v,nzol_n1by2,ncgo,ncgw)
 
-      w(:) = p_n1by2(0)*v(:)
+      w(:) = r_n1by2(0)*v(:)
 *
       do izol=1,nzol_n1by2
-         w(:) = w(:) + p_n1by2(izol)*xs(:,izol)
+         w(:) = w(:) + r_n1by2(izol)*xs(:,izol)
       enddo
 *
       return
       end
-      subroutine H_overlap_pow_p1by4(v,w,ncg)
+      subroutine H_overlap_pow_p1by4(v,w,ncgo,ncgw)
 #include "size.h"
 #include "zolo.h"
-      integer ncg, izol
+      integer ncgo, ncgw, izol
       complex*16 v(mvs), w(mvs)
-      complex*16 pz, rz, ps, xs
-      common /zolvals/ pz(nzolmax), rz(nzolmax)
+      complex*16 ps, xs
+      real*8 pzov, rzov
+      common /zolvals/ pzov(nzolmax), rzov(nzolmax)
       common /wrkforce_ovshift/ ps(mvs,nzolmax), xs(mvs,nzolmax)
 *
-      pz(1:nzol_p1by4) = p_p1by4(1:nzol_p1by4)
-      rz(1:nzol_p1by4) = r_p1by4(1:nzol_p1by4)
+      pzov(1:nzol_p1by4) = p_p1by4(1:nzol_p1by4)
+      rzov(1:nzol_p1by4) = r_p1by4(1:nzol_p1by4)
 
-      call invert_overlap_shifted(v,nzol_p1by4,ncg)
+      call invert_overlap_shifted(v,nzol_p1by4,ncgo,ncgw)
 
-      w(:) = p_p1by4(0)*v(:)
+      w(:) = r_p1by4(0)*v(:)
 *
       do izol=1,nzol_p1by4
-         w(:) = w(:) + p_p1by4(izol)*xs(:,izol)
+         w(:) = w(:) + r_p1by4(izol)*xs(:,izol)
       enddo
 *
       return
