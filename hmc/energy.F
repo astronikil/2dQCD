@@ -1,5 +1,5 @@
       !subroutine energy(beta,em,es,ef,ene)
-      subroutine energy(beta,em,es,ef,ene,ncgo,ncgs)
+      subroutine energy(beta,em,es,ef,ene,ncgo,ncgw)
 ************************************************************************
 *                                                                      *
 *     Calculates total energy E=P^2/2+S(plaq)+S(fermion)               *
@@ -10,7 +10,7 @@
       real*8, parameter :: DACCU1=1.0E-12, DACCU2=1.0E-13
 c      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
 *
-      integer ifl, l, ncgo, ncgs, nitov, nitsq, ic, jc
+      integer ifl, l, ncgo, ncgw, nitov, nitsq, ic, jc
       real*8 beta, delitov, delitsq, dovhold, dovsq 
       real*8 es, ef, em, ene
       complex*16 rphi, mydot
@@ -33,7 +33,7 @@ c      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
 *
       ef=0.0D0
       do ifl=1,nf
-         call invert_overlap(rphi(:,ifl),xsol,ncgo,ncgs)
+         call H_overlap_pow_n1by2(rphi(:,ifl),xsol,ncgo,ncgw)
          ef=ef+real(mydot(rphi(:,ifl),xsol))
       enddo
 *

@@ -28,6 +28,7 @@ gfortran -O3 -o hmc \
 ../gauge/sungenerators.F \
 ../invertor/invert_overlap.F \
 ../invertor/invert_wilson_shifted.F \
+../invertor/invert_overlap_shifted.F \
 ../util/io.F \
 ../util/mydot.F \
 ../util/gauss.F \
