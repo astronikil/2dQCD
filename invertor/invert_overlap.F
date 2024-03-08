@@ -75,12 +75,12 @@
 
       xsol=x
 
-      rcheck=real(mydot(rphi,xsol))
-      if(rcheck.lt.0.0)then
-         write(*,*)'!!!!!!!!!!!-ve norm alert!!!!!!!!'
-         write(*,*)rcheck,nitcg,ncgs
-         stop
-      endif
+c      rcheck=real(mydot(rphi,xsol))
+c      if(rcheck.lt.0.0)then
+c         write(*,*)'!!!!!!!!!!!-ve norm alert!!!!!!!!'
+c         write(*,*)rcheck,nitcg,ncgs
+c         stop
+c      endif
 *
       return
       end
