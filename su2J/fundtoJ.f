@@ -17,8 +17,8 @@
 c     zheev is the LAPACK routine used for eigenvalue and eigenvector computations
 
       ai=(0.d0,1.d0)
-      zphase(1)=exp(ai*acos(-1.0D0)/mx)
-      zphase(2)=exp(ai*acos(-1.0D0)/mt)
+      zphase(1)=exp(ai*acos(-1.0D0)/dfloat(mx))
+      zphase(2)=exp(ai*acos(-1.0D0)/dfloat(mt))
       jobz='V'
       uplo='U'
 
@@ -30,7 +30,7 @@ c     computation of algebra angles from u
       
       u(:,:)=uin(:,:,ll)
       
-      theta=dacos(dreal(u(1,1)))
+      theta=acos(real(u(1,1)))
       if(theta.eq.0.d0) then
          do i1=1,ncr
             do i2=1,ncr
@@ -40,12 +40,12 @@ c     computation of algebra angles from u
          enddo
          return
       endif
-      snt=dsin(theta)/theta
-      th1=dimag(u(1,2))/snt
-      th2=dreal(u(1,2))/snt
+      snt=sin(theta)/theta
+      th1=aimag(u(1,2))/snt
+      th2=real(u(1,2))/snt
       thp=0.5d0*(th1-ai*th2)
       thm=0.5d0*(th1+ai*th2)
-      th3=dimag(u(1,1))/snt
+      th3=aimag(u(1,1))/snt
 
 
 c     Form the H in U=e^{-iH} and H is the nxn matrix      
@@ -56,7 +56,6 @@ c         enddo
 c      enddo
 
       h = 2.0D0*(th1*T1 + th2*T2 + th3*T3)
-      !h = 2.0D0*(th1*T2 + th2*T3 + th3*T1)
 
 c     Diagonalize H
       call zheev(jobz,uplo,ncr,h,ncr,w,work,lwork,rwork,info)
@@ -67,8 +66,8 @@ c     Form the nxn special unitary matrix in the |j,m> basis.
          do i2=1,ncr
             sum=0.d0
             do i3=1,ncr
-               sum=sum+(h(i1,i3)*dconjg(h(i2,i3))
-     &              *cdexp(ai*w(i3)))
+               sum=sum+(h(i1,i3)*conjg(h(i2,i3))
+     &              *exp(ai*w(i3)))
             enddo
             v(i1,i2)=sum
          enddo

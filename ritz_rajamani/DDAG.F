@@ -17,16 +17,16 @@ c      call linkc
 c      call H_wilson(v,x)
 c      call H_wilson(x,w)
 
-      do l=1,nv
-         v(:,2,l)=(0.0D0,0.0D0)
-      enddo
+c      do l=1,nv
+c         v(:,2,l)=(0.0D0,0.0D0)
+c      enddo
 
       call H_overlap(v,x,ncgo)
       call H_overlap(x,w,ncgo)
 
-      do l=1,nv
-         w(:,2,l)=(0.0D0,0.0D0)
-      enddo
+c      do l=1,nv
+c         w(:,2,l)=(0.0D0,0.0D0)
+c      enddo
 *
       return
       end subroutine DDAG

@@ -74,7 +74,7 @@
          do izol=1, kzol
             xinew(izol)=xicurr(izol)*xiold(izol)*alphold
      1          /(alpha*beta*(xiold(izol)-xicurr(izol))
-     2          +xiold(izol)*alphold*(1+pz(izol)*alpha))
+     2          +xiold(izol)*alphold*(1.0D0+pz(izol)*alpha))
             alphas(izol)=alpha*xinew(izol)/xicurr(izol)
          enddo
 *

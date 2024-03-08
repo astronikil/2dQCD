@@ -13,7 +13,7 @@
       common /config/ u(nc,nc,mb)
       common /donfig/ ud(nc,nc,mb)
       common /iupidn/ iup(mb), idn(mb)
-      common /twisted/ztw(mv,nd,nd)
+      common /twisted/ztw(mv,-nd:nd ,-nd:nd)
 *
       integer MVA(2,2)
       data MVA /0,1, 1,0/
@@ -45,7 +45,8 @@
 *
          l1 = iup(ll+mu) + nu
 
-         ud(:,:,l) = ud(:,:,l)+matmul(u(:,:,l1), w(:,:))
+         ud(:,:,l) = ud(:,:,l)+matmul(u(:,:,l1), w(:,:))*
+     1                ztw(ll,MVA(1,ii)+1, MVA(m, ii)+1)
 *
          l1 = idn(ll+nu) + mu
          l2 = idn(iup(ll+mu) + nu) + nu
@@ -60,7 +61,8 @@
 *
          l1 = idn(ll+nu) + nu
 
-         ud(:,:,l) = ud(:,:,l)+matmul(w(:,:),u(:,:,l1))
+         ud(:,:,l) = ud(:,:,l)+matmul(w(:,:),u(:,:,l1))*
+     1                ztw(ll,MVA(1,ii)+1, -(MVA(m, ii)+1))
 *
       end do
 *
@@ -80,8 +82,9 @@
       integer l, ll, l1, l2, ii, mu, nu, m, iup, idn
       integer ic, jc
       integer LR
-      complex*16 u, ud
+      complex*16 u, ud, ztw
       complex*16 v(nc,nc), w(nc,nc)
+      common /twisted/ztw(mv,-nd:nd ,-nd:nd)
       common /config/ u(nc,nc,mb)
       common /donfig/ ud(nc,nc,mb)
       common /iupidn/ iup(mb), idn(mb)
@@ -116,7 +119,8 @@
 *
          l1 = iup(ll+mu) + nu
 
-         ud(:,:,l) = ud(:,:,l)+matmul(u(:,:,l1), w(:,:))
+         ud(:,:,l) = ud(:,:,l)+matmul(u(:,:,l1), w(:,:))*
+     1                ztw(ll,MVA(1,ii)+1, MVA(m, ii)+1)
 *
          l1 = idn(ll+nu) + mu
          l2 = idn(iup(ll+mu) + nu) + nu
@@ -131,7 +135,8 @@
 *
          l1 = idn(ll+nu) + nu
 
-         ud(:,:,l) = ud(:,:,l)+matmul(w(:,:),u(:,:,l1))
+         ud(:,:,l) = ud(:,:,l)+matmul(w(:,:),u(:,:,l1))*
+     1                ztw(ll,MVA(1,ii)+1, -(MVA(m, ii)+1))
 *
       end do
       end do
@@ -197,12 +202,13 @@
       integer iup, idn
       integer mu, nu, muu, nuu, l, l1, l2, l0, ic, jc, nplaq
       real*8 eser, eter, es
-      complex*16 y, yc, xes, xet
+      complex*16 y, yc, xes, xet, ztw
       complex*16 plqs,plqt,xeser,xeter
       complex*16 g(nc,nc),h(nc,nc)
       common /config/ y(nc,nc,mb)
       common /arrays/ yc(nc,nc,mb)
       common /iupidn/ iup(mb), idn(mb)
+      common /twisted/ztw(mv,-nd:nd ,-nd:nd)
 ***********************************************************************
 *                                                                     *
 *     The temporal plaquette value.                                   *
@@ -232,6 +238,8 @@
                h=matmul(g(:,:),yc(:,:,l2))
                l0=l+nu
                g=matmul(h,yc(:,:,l0))
+
+               g=g*ztw(l,muu,nuu)
                do ic=1,nc
                   xet = xet + g(ic,ic)
                enddo

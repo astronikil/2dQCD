@@ -7,8 +7,8 @@
 ************************************************************************
 #include "size.h"
 *
-c      real*8, parameter :: DACCU1=1.0E-6, DACCU2=1.0E-8
-      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
+      real*8, parameter :: DACCU1=1.0E-12, DACCU2=1.0E-13
+c      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
 *
       integer ifl, l, ncgo, ncgs, nitov, nitsq, ic, jc
       real*8 beta, delitov, delitsq, dovhold, dovsq 

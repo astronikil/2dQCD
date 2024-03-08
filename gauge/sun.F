@@ -120,3 +120,90 @@ c         enddo
       write(28,'(2x,a)') 'Initialised to random link configuration'
       return
       end
+      subroutine twistflow2(zeta)
+*************************************************************************
+*                                                                       *
+*     Generate ordered links                                            *
+*                                                                       *
+*************************************************************************
+#include "size.h"
+      integer l, ic, iseed, ino, ix, iy
+      real*8 rpi, r(mb), zeta
+      complex*16 u, zi
+      common /config/ u(nc,nc,mb)
+      common /random/ iseed(4)
+      common /newold/ ino(mv)
+
+      call dlarnv(1,iseed,mb,r)
+
+      zi=(0.0D0,1.0D0)
+      rpi=acos(-1.0D0)
+*
+      u=(0.0D0,0.0D0)
+*
+      do l=1,mb
+         u(1,1,l)=(1.0D0,0.0D0)
+         u(2,2,l)=(1.0D0,0.0D0)
+      enddo
+*
+
+c      ix=1
+c      do iy=1,mt
+c         l=ino(ix+mx*(iy-1))
+c         u(1,1,l)=(1.0D0,0.0D0)*exp(2.0D0*rpi*zi*zeta)
+c         u(2,2,l)=(1.0D0,0.0D0)*exp(-2.0D0*rpi*zi*zeta)
+c      enddo
+      return
+      end
+      subroutine twistflow(zeta)
+*************************************************************************
+*                                                                       *
+*     Generate random  SU(N) matrices                                   *
+*                                                                       *
+*************************************************************************
+#include "size.h"
+      integer, parameter :: K2MAX=2*nc2*mb 
+      integer j, l, iseed, ic
+      real*8 RUNUM(K2MAX), rpi, zeta
+      complex*16 u, zi
+      integer ino, ix, iy
+      common /config/ u(nc2,mb)
+      common /random/ iseed(4)
+      common /newold/ ino(mv)
+
+      iseed=102
+      iseed(4)=3307
+*
+      zi=(0.0D0, 1.0D0)
+      rpi=acos(-1.0D0)
+*      
+      call dlarnv(2,iseed,K2MAX,RUNUM)
+
+      u=0.0D0
+      do l=1,mb
+         u(1,l)=(1.0D0,0.0D0)
+         u(4,l)=(1.0D0,0.0D0)
+      enddo
+*
+      j=1
+      do l=1,mb
+         do ic=1,nc2
+            u(ic,l)=u(ic,l)+0.4*(RUNUM(j)+zi*RUNUM(j+1))
+            j=j+2
+         enddo
+      enddo
+*
+      call unitar
+*
+      ix=1
+      do iy=1,mt
+         l=ino(ix+mx*(iy-1))
+         u(1,l)=u(1,l)*exp(2.0D0*rpi*zi*zeta)
+         u(3,l)=u(3,l)*exp(-2.0D0*rpi*zi*zeta)
+         u(2,l)=u(2,l)*exp(2.0D0*rpi*zi*zeta)
+         u(4,l)=u(4,l)*exp(-2.0D0*rpi*zi*zeta)
+      enddo
+*
+      write(28,'(2x,a)') 'Initialised to random link configuration'
+      return
+      end

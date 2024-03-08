@@ -4,8 +4,11 @@
       integer nitsq,  nitov
       real*8 beta, fm, time, rm, rmv, csw, es
       REAL*8 lambda(nev), ipr(nev)
-      real*8 xaniso, delitov, delitsq
-      complex*16 x, y, t, p, wl
+      real*8 xaniso, delitov, delitsq, fmo
+      complex*16 x, y, t, p, wl, ztw
+      integer istart, istrt, nmd, nflav, nitrc, ntraj, nlen, nstep,
+     1  nmin, nmax
+      real*8 dt, pi, tpi,delit,zeta
 
       common /wrkry/ x(nvsz), y(nvsz), t(nvsz), p(nvsz)
       common /random/ iseed(4)
@@ -13,15 +16,17 @@
       common /param_sqrt/ delitsq, nitsq
       common /anisotropy/ xaniso
       common /quark/ rm
+      common /quark_ov/ fmo
+      common /twisted/ztw(mv,-nd:nd ,-nd:nd)
       iseed=0; iseed(4)=1
       fm=1.0D0
+      fmo=0.0D0
       xaniso=1.0D0
       delitov=1.0E-4
       delitsq=1.0E-6
       nitov=5000
       nitsq=5000
-
-      read(*,*)fm
+      ztw=1.0D0
 
       rm = 1.0D0 + 1.0D0/xaniso**2 - fm
       delitov=delitov*delitov
@@ -39,8 +44,13 @@ c      open(99,file='hist'//fix(myid),status='unknown')
 ************************************************************************
       call sungenerators
       call su2alg
-      call ransun
-      call ransun_pert
+c      call readconfig(beta, fm, dt, nitrc, delit, ntraj,
+c     1           nstep, istrt, time, nmd)
+c      write(*,*)beta,fm,dt,time
+c      call ordsun
+c      call ransun_pert
+      read(*,*)zeta
+      call twistflow(zeta)
 ************************************************************************
 *     initialise the configuration                                     *
 ************************************************************************
@@ -62,7 +72,8 @@ c      open(99,file='hist'//fix(myid),status='unknown')
       call partratio(ipr)
 *
       do iev=1, nev
-         write(55,6001)iev,lambda(iev), fm !ipr(iev), mx, es, real(wl)
+         !write(55,6001)iev,lambda(iev), fm !ipr(iev), mx, es, real(wl)
+         write(55,*)iev,lambda(iev), fm, zeta !ipr(iev), mx, es, real(wl)
       enddo
 *
  6001 format(1x, i3, 2x, e16.8,2x,e16.8,2x,i3,2x,e16.8,2x,e16.8)

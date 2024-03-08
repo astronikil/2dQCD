@@ -18,21 +18,33 @@
       call gnoise                               ! set the gaussian momenta
       call ferminit
       call phiinit                              ! initialise the phi vector
-c      call writeinit
+      call writeinit
       call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
+      write(*,*)'T0    :',ene0,em0,es0,ef0
+      !call uevol(dt*0.5D0)                        ! evolve the gauge fields
       call uevol(dt*0.5D0)                        ! evolve the gauge fields
+c      call ferminit
+c      call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
+c      write(*,*)'U-half:',ene0,em0,es0,ef0
 ************************************************************************
 *     The rest of the steps of the trajectory.                         *
 ************************************************************************
       do 110 imd=1,nmd-1
+c         write(*,*)dt,nmd
          call fermfo(ncgo,ncgs)                     ! the fermionic force
          ncgomn=min(ncgomn,ncgo)
          ncgomx=max(ncgomx,ncgo)
          ncgsmn=min(ncgsmn,ncgs)
          ncgsmx=max(ncgsmx,ncgs)
-         call bosefo(beta,ebr,et)               ! the bosonic force
+         call bosefo(beta)                      ! the bosonic force
          call pevol(dt)                         ! evolve the momenta
+c         call ferminit
+c         call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
+c         write(*,*)'P-full:',ene0,em0,es0,ef0
          call uevol(dt)                         ! evolve the gauge fields
+c         call ferminit
+c         call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
+c         write(*,*)'U-full:',ene0,em0,es0,ef0
  110     continue
 ************************************************************************
 *     The last step of the trajectory                                  *
@@ -42,15 +54,21 @@ c      call writeinit
       ncgomx=max(ncgomx,ncgo)
       ncgsmn=min(ncgsmn,ncgs)
       ncgsmx=max(ncgsmx,ncgs)
-      call bosefo(beta,ebr,et)                  ! the bosonic force
+      call bosefo(beta)                          ! the bosonic force
       call pevol(dt)
+c      call ferminit
+c      call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
+c      write(*,*)'P-full:',ene0,em0,es0,ef0
       call uevol(dt*0.5D0)                        ! evolve the gauge fields
+c      call ferminit
+c      call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
+c      write(*,*)'U-half:',ene0,em0,es0,ef0
       call ferminit
       call energy(beta,em,es,ef,enef,ncgoe,ncgse)
       call metro(ene0,enef,naccept)             ! metropolis step
       write(*,*)'E0= ',ene0,em0,es0,ef0
       write(*,*)'EF= ',enef,em,es,ef
-c      write(*,*)' '
+      write(*,*)' '
 *
       return
       end

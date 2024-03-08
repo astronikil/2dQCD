@@ -4,7 +4,7 @@
       integer ic, jc, ll, ix, it, ix3, it3, lt, i2pt
       complex*16 gx
       complex*16 zi, smat(ncs,ncs), sig
-      complex amat(ncs,ncs), bmat(ncs,ncs), cmat(ncs,ncs), 
+      complex*16 amat(ncs,ncs), bmat(ncs,ncs), cmat(ncs,ncs), 
      1        dmat(ncs,ncs), emat(ncs,ncs)
       complex*16 c2pt(mt,n2pt)
       common /paulimat/ sig(ncs,ncs,4)

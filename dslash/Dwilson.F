@@ -130,7 +130,7 @@
 *     Action of the fermion matrix.                                     *
 *                                                                       *
 *************************************************************************
-      v=0.0
+      v=0.0D0
 !$OMP parallel do default(shared)
 !$OMP^ private(x)
 !$OMP^ private(lmu, l)

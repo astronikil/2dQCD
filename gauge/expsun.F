@@ -18,7 +18,7 @@
 *
          do i=1,nc
             do j=1,nc
-               qm(i,j,l)=0.d0
+               qm(i,j,l)=0.0D0
                do k=1,nc
                   qm(i,j,l)=qm(i,j,l)+zw(k)*u(i,k)*conjg(u(j,k))
                enddo

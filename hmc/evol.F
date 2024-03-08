@@ -6,15 +6,15 @@
 ************************************************************************
 #include "size.h"
       integer l, ic, jc
-      real*8 dt, tr
-      complex*16 fo, qf, v(nc,nc)
+      real*8 dt
+      complex*16 fo, qf, tr, v(nc,nc)
       common /forces/ fo(nc,nc,mb), qf(nc,nc,mb)
 ************************************************************************
 *     evolve the momenta.                                              *
 ************************************************************************
       do l=1, mb
-         tr = 0.0D0
-         v = 0.0D0
+         tr = (0.0D0,0.0D0)
+         v = (0.0D0,0.0D0)
          do ic=1,nc
             do jc=ic,nc
                v(ic,jc)=fo(ic,jc,l)+conjg(fo(jc,ic,l))
@@ -25,7 +25,7 @@
          fo(:,:,l) = v(:,:)
 *
          do ic=1,nc
-            fo(ic,ic,l) = fo(ic,ic,l) - tr/nc
+            fo(ic,ic,l) = fo(ic,ic,l) - tr/dfloat(nc)
          enddo
       enddo
 *
@@ -59,6 +59,8 @@
       do l=1,mb
          u(:,:,l) = matmul(eq(:,:,l), u(:,:,l))
       enddo
+
+c      call unitar
 *
       return
       end

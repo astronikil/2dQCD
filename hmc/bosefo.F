@@ -7,10 +7,8 @@
       integer l
       complex*16 fo, qf, zi
       complex*16 st
-      complex*16 ztw
       real*8 beta
 *
-      common /twisted/ztw(mv)
       common /forces/ fo(nc2,mb), qf(nc2,mb)
       common /donfig/ st(nc2,mb)
       zi=(0.0D0,1.0D0)

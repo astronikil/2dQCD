@@ -4,7 +4,7 @@
       complex*16 r,u,fo,qf
       common /forces/ fo(nc,nc,mv,2), qf(nc,nc,mv,2)
       common /config/ u(nc,nc,mv,2)
-      common/rinit/r(nc,2,mv,nf)
+      common/rinit/r(ncr,2,mv,nf)
       common /newold/ ino(mv)
       ll=0
       do it=1,mt
@@ -18,6 +18,9 @@
                write(81,*)ix,it,ic,jc,qf(ic,jc,l,1),
      1         qf(ic,jc,l,2)
             enddo
+         enddo
+
+         do ic=1,ncr
             write(82,*)ix,it,ic,(r(ic,1,l,ifl),r(ic,2,l,ifl), ifl=1,nf)
          enddo
       enddo

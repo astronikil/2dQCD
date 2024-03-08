@@ -4,6 +4,7 @@
 #module load cpu/0.15.4
 #module load netlib-lapack/3.8.0
 
+#gfortran -O3  -fdefault-double-8 -fdefault-real-8 -o hmc \
 gfortran -O3 -o hmc \
 ../hmc/main_meas2.F \
 ../hmc/lat.F \
@@ -30,22 +31,11 @@ gfortran -O3 -o hmc \
 ../util/io.F \
 ../util/mydot.F \
 ../util/gauss.F \
+../util/writeinit.F \
 ../rvector/phiinit.F \
 ../rvector/gnoise.F \
 ../rvector/ranv.F \
 ../rvector/z2noise.F \
-../ritz_rajamani/submain.F \
-../ritz_rajamani/DDAG.F \
-../ritz_rajamani/random.f \
-../ritz_rajamani/mathtools.f \
-../ritz_rajamani/sort.f \
-../ritz_rajamani/GS.f \
-../ritz_rajamani/spectrum.f \
-../ritz_rajamani/startritz.f \
-../ritz_rajamani/ritz.f \
-../ritz_rajamani/diagritz.f \
-../ritz_rajamani/miscroutines.f \
-../ritz_rajamani/ipr.f \
 ../c2pt/submain.F \
 ../c2pt/checktolinear.F \
 ../c2pt/paulinit.F \
@@ -59,3 +49,15 @@ gfortran -O3 -o hmc \
 -I ../su2J
 
 
+#../ritz_rajamani/submain.F \
+#../ritz_rajamani/DDAG.F \
+#../ritz_rajamani/random.f \
+#../ritz_rajamani/mathtools.f \
+#../ritz_rajamani/sort.f \
+#../ritz_rajamani/GS.f \
+#../ritz_rajamani/spectrum.f \
+#../ritz_rajamani/startritz.f \
+#../ritz_rajamani/ritz.f \
+#../ritz_rajamani/diagritz.f \
+#../ritz_rajamani/miscroutines.f \
+#../ritz_rajamani/ipr.f \

@@ -6,7 +6,7 @@
 *
       zi=(0.0D0,1.0D0)
 *
-      tgen=0.0D0
+      tgen=(0.0D0,0.0D0)
 *
       l=0
       do ic=1,nc
@@ -28,9 +28,11 @@
       do ic=1,nc-1
          l=l+1
          do jc=1,ic
-            tgen(jc,jc,l)=sqrt(2.0D0/(ic*(ic+1.0D0)))
+            tgen(jc,jc,l)=sqrt(2.0D0/(
+     1                       dfloat(ic)*(dfloat(ic)+1.0D0)))
          enddo
-         tgen(ic+1,ic+1,l)=-ic*sqrt(2.0D0/(ic*(ic+1.0D0)))
+         tgen(ic+1,ic+1,l)=-dfloat(ic)*
+     1           sqrt(2.0D0/(dfloat(ic)*(dfloat(ic)+1.0D0)))
       enddo
       end
 *      

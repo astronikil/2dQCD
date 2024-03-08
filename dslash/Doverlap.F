@@ -17,7 +17,7 @@ c      write(*,*)'##### eps=',mydot(y,y)/mydot(v,v)
 *
       do l=1,mv
          w(:,1,l) =  r1*v(:,1,l) + r2*y(:,1,l)
-         w(:,2,l) = -r1*v(:,2,l) + r2*y(:,2,l)
+         w(:,2,l) = -1.0D0*r1*v(:,2,l) + r2*y(:,2,l)
       enddo
 *
       return
@@ -34,7 +34,7 @@ c      write(*,*)'##### eps=',mydot(y,y)/mydot(v,v)
       call sqrtoverlap(x,w,ncg)
 *
       do l=1,mv
-         w(:,2,l) = -w(:,2,l)
+         w(:,2,l) = -1.0D0*w(:,2,l)
       enddo
 *
       return
@@ -49,7 +49,7 @@ c      write(*,*)'##### eps=',mydot(y,y)/mydot(v,v)
 *      
       do l=1,mv
          w(:,1,l) =  v(:,1,l)
-         w(:,2,l) = -v(:,2,l)
+         w(:,2,l) = -1.0D0*v(:,2,l)
       enddo
 *
       call H_wilson(w,x)

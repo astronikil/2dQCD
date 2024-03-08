@@ -16,7 +16,7 @@
 *
       call linkc
 *
-      rin=0.0D0
+      rin=(0.0D0,0.0D0)
       do ifl=1,nf
          call ranv(r)
          rin(:,ifl)=r(:)
@@ -34,7 +34,7 @@
 *
       do ifl=1,nf
          do l=1,mv
-            rphi(:,2,l,ifl)=0.0D0
+            rphi(:,2,l,ifl)=(0.0D0,0.0D0)
          enddo
       enddo
 *
