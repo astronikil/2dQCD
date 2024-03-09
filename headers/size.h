@@ -10,6 +10,8 @@ c      include "mpif.h"
 c     nc=2 will remain since we want work with SU(2)
 c     ncr is the size of the representation of the fermions and n=2j+1 where j is the representation.
 
+      character, parameter :: fermtype = 'M'  ! Dirac=D, Majorana=M
+
       integer, parameter :: nc=2, nc2=nc*nc
       integer, parameter :: twoXj=1, ncr=twoXj+1
 c      

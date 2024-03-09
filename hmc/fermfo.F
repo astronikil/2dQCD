@@ -1,4 +1,14 @@
       subroutine fermfo(ncgo,ncgw)
+#include "size.h"
+      integer ncgw, ncgo
+      if(fermtype.eq.'D')then
+        call fermfo_dirac(ncgo,ncgw)
+      elseif(fermtype.eq.'M')then
+        call fermfo_majorana(ncgo,ncgw)
+      endif
+      return
+      end
+      subroutine fermfo_majorana(ncgo,ncgw)
 ************************************************************************
 *                                                                      *
 *     Molecular dynamics: fermionic part of the force.                 *

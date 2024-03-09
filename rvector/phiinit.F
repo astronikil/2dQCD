@@ -20,7 +20,10 @@
       do ifl=1,nf
          call ranv(r)
          rin(:,ifl)=r(:)
-         call H_overlap_pow_p1by4(r,rphi(:,ifl),ncgo, ncgw)
+         if(fermtype.eq.'D')then
+            call H_overlap(r,rphi(:,ifl),ncgw)
+         elseif(fermtype.eq.'M')then
+            call H_overlap_pow_p1by4(r,rphi(:,ifl),ncgo, ncgw)
       enddo
 *
       call projchiral
