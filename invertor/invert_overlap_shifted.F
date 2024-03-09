@@ -9,7 +9,7 @@ c#include "zolo.h"
       integer, parameter :: nzolmax=30
       real*8, parameter :: tny=1.0E-15
       integer kzol, l, nitrc, nitcg, ncgs, nx, izol, nzolin
-      complex*16 pz, rz
+      real*8 pz, rz
       complex*16 ps, xs
       complex*16 p, r, x, dtp, ddtp
       complex*16 mydot

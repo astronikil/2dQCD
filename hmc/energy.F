@@ -1,4 +1,3 @@
-      !subroutine energy(beta,em,es,ef,ene)
       subroutine energy(beta,em,es,ef,ene,ncgo,ncgw)
 ************************************************************************
 *                                                                      *
@@ -16,6 +15,7 @@ c      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
       complex*16 rphi, mydot
       complex*16 fo, qf
       complex*16 xsol(mvs)
+c      complex*16 x1(mvs),x2(mvs),x3(mvs),x4(mvs) !!!
 *
       common /phi/ rphi(mvs,nf)
       common /forces/ fo(ntot), qf(ntot)
@@ -36,6 +36,15 @@ c      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
          call H_overlap_pow_n1by2(rphi(:,ifl),xsol,ncgo,ncgw)
          ef=ef+real(mydot(rphi(:,ifl),xsol))
       enddo
+
+c      x1=rphi(:,1)
+c      call H_overlap_pow_n1by2(x1,x2,ncgo,ncgw) !x2=H^-0.5 x1
+c      call H_overlap_pow_p1by4(x2,x3,ncgo,ncgw) !x2=H^-0.5 x1
+c      call H_overlap_pow_n1by2(x3,x2,ncgo,ncgw) !x2=H^-0.5 x1
+c      !call invert_overlap(x1,x3,ncgo,ncgw)
+c      !call H_overlap(x3,x4,ncgo)
+c      !call H_overlap(x4,x2,ncgo)
+c      write(*,*)'norms:',mydot(x1,x1),mydot(x2,x2)
 *
       delitov=dovhold
       delitsq=dovsq
@@ -46,7 +55,6 @@ c      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
       enddo
 *
       ene=em+es+ef
-c      ene=em+es
 *
       return
       end subroutine energy

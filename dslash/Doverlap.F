@@ -1,49 +1,3 @@
-      subroutine H_overlap_pow_n1by2(v,w,ncgo,ncgw)
-#include "size.h"
-#include "zolo.h"
-      integer ncgo, ncgw, izol
-      complex*16 v(mvs), w(mvs)
-      complex*16 ps, xs
-      real*8 pzov, rzov
-      common /zolvals/ pzov(nzolmax), rzov(nzolmax)
-      common /wrkforce_ovshift/ ps(mvs,nzolmax), xs(mvs,nzolmax)
-*
-      pzov(1:nzol_n1by2) = p_n1by2(1:nzol_n1by2)
-      rzov(1:nzol_n1by2) = r_n1by2(1:nzol_n1by2)
-
-      call invert_overlap_shifted(v,nzol_n1by2,ncgo,ncgw)
-
-      w(:) = r_n1by2(0)*v(:)
-*
-      do izol=1,nzol_n1by2
-         w(:) = w(:) + r_n1by2(izol)*xs(:,izol)
-      enddo
-*
-      return
-      end
-      subroutine H_overlap_pow_p1by4(v,w,ncgo,ncgw)
-#include "size.h"
-#include "zolo.h"
-      integer ncgo, ncgw, izol
-      complex*16 v(mvs), w(mvs)
-      complex*16 ps, xs
-      real*8 pzov, rzov
-      common /zolvals/ pzov(nzolmax), rzov(nzolmax)
-      common /wrkforce_ovshift/ ps(mvs,nzolmax), xs(mvs,nzolmax)
-*
-      pzov(1:nzol_p1by4) = p_p1by4(1:nzol_p1by4)
-      rzov(1:nzol_p1by4) = r_p1by4(1:nzol_p1by4)
-
-      call invert_overlap_shifted(v,nzol_p1by4,ncgo,ncgw)
-
-      w(:) = r_p1by4(0)*v(:)
-*
-      do izol=1,nzol_p1by4
-         w(:) = w(:) + r_p1by4(izol)*xs(:,izol)
-      enddo
-*
-      return
-      end
       subroutine H_overlap(v,w,ncg)
 #include "size.h"
       integer ncg, l
@@ -114,6 +68,52 @@
       do izol=1,nzol
          w=w+rz(izol)*x(:,izol)
       enddo
+      end
+      subroutine H_overlap_pow_n1by2(v,w,ncgo,ncgw)
+#include "size.h"
+#include "zolo.h"
+      integer ncgo, ncgw, izol
+      complex*16 v(mvs), w(mvs)
+      complex*16 ps, xs
+      real*8 pzov, rzov
+      common /zolvals/ pzov(nzolmax), rzov(nzolmax)
+      common /wrkforce_ovshift/ ps(mvs,nzolmax), xs(mvs,nzolmax)
+*
+      pzov(1:nzol_n1by2) = p_n1by2(1:nzol_n1by2)
+      rzov(1:nzol_n1by2) = r_n1by2(1:nzol_n1by2)
+
+      call invert_overlap_shifted(v,nzol_n1by2,ncgo,ncgw)
+
+      w(:) = r_n1by2(0)*v(:)
+*
+      do izol=1,nzol_n1by2
+         w(:) = w(:) + r_n1by2(izol)*xs(:,izol)
+      enddo
+*
+      return
+      end
+      subroutine H_overlap_pow_p1by4(v,w,ncgo,ncgw)
+#include "size.h"
+#include "zolo.h"
+      integer ncgo, ncgw, izol
+      complex*16 v(mvs), w(mvs)
+      complex*16 ps, xs
+      real*8 pzov, rzov
+      common /zolvals/ pzov(nzolmax), rzov(nzolmax)
+      common /wrkforce_ovshift/ ps(mvs,nzolmax), xs(mvs,nzolmax)
+*
+      pzov(1:nzol_p1by4) = p_p1by4(1:nzol_p1by4)
+      rzov(1:nzol_p1by4) = r_p1by4(1:nzol_p1by4)
+
+      call invert_overlap_shifted(v,nzol_p1by4,ncgo,ncgw)
+
+      w(:) = r_p1by4(0)*v(:)
+*
+      do izol=1,nzol_p1by4
+         w(:) = w(:) + r_p1by4(izol)*xs(:,izol)
+      enddo
+*
+      return
       end
 c      subroutine VVdag_overlap(v,w,ncg)
 c***** This subroutine not tested. This is a stub ********  

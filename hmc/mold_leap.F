@@ -20,8 +20,7 @@
       call phiinit                              ! initialise the phi vector
       call writeinit
       call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
-      write(*,*)'T0    :',ene0,em0,es0,ef0
-      !call uevol(dt*0.5D0)                        ! evolve the gauge fields
+c      write(*,*)'T0    :',ene0,em0,es0,ef0
       call uevol(dt*0.5D0)                        ! evolve the gauge fields
 c      call ferminit
 c      call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
@@ -66,9 +65,9 @@ c      write(*,*)'U-half:',ene0,em0,es0,ef0
       call ferminit
       call energy(beta,em,es,ef,enef,ncgoe,ncgse)
       call metro(ene0,enef,naccept)             ! metropolis step
-      write(*,*)'E0= ',ene0,em0,es0,ef0
-      write(*,*)'EF= ',enef,em,es,ef
-      write(*,*)' '
+c      write(*,*)'E0= ',ene0,em0,es0,ef0
+c      write(*,*)'EF= ',enef,em,es,ef
+c      write(*,*)' '
 *
       return
       end

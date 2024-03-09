@@ -21,9 +21,9 @@
       complex*16 T1, T2, T3, Tgen_norm, mydot
 *
       common /quark_ov/ fmo
-
+*
       common /gellmann/ tgen(nc,nc,nca)
-
+*
       common /wrkforce/ ps(mvs,nzol), xs(mvs,nzol)
       common /wrkforce_ovshift/ psov(mvs,nzolmax), xsov(mvs,nzolmax)
       common /scratch1/ z(mvs,nzol)
@@ -54,24 +54,21 @@
 *************************************************************************
       do ifl=1,nf
          call invert_overlap_shifted(rphi(:,ifl),nzol_n1by2,ncgo,ncgw)
-         do jzol=0,nzol_n1by2
-            if(jzol.eq.0)then
-               call invert_wilson_shifted(rphi(:,ifl),ncgs1)
-            else
-               call invert_wilson_shifted(xsov(:,jzol),ncgs1)
-            endif
-            z=r_n1by2(jzol)*xs    ! define V
+         do jzol=1,nzol_n1by2
+
+            call invert_wilson_shifted(xsov(:,jzol),ncgs1)
+            z=xs    ! define V
 
             do izol=1,nzol
                call H_wilson(z(:,izol), w)
 
                call wdfmv(w, wrk)
 
-               fo_ir=fo_ir+0.25D0*zi*rz(izol)*wrk
+               fo_ir=fo_ir+0.25D0*zi*rz(izol)*r_n1by2(jzol)*wrk
 
                call wdfmv(z(:,izol), wrk)
 
-               fo_ir=fo_ir-0.25D0*zi*rz(izol)*pz(izol)*wrk
+               fo_ir=fo_ir-0.25D0*zi*rz(izol)*pz(izol)*r_n1by2(jzol)*wrk
 
             enddo
 
