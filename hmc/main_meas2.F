@@ -138,7 +138,11 @@ c     &     MPI_COMM_WORLD,ierr)
       dt=1.0D0/dfloat(nmd)
 *
       write(28,6000) version
-      write(28,6001) mx,mt,nf,fm,betag,ntraj,nmd,dt,delit,eps
+      write(28,6011) fermtype, twoXj
+      write(28,6012) nf, betag
+      write(28,6013) fmo, fm
+      !write(28,6001) mx,mt,nf,fm,betag,ntraj,nmd,dt,delit,eps
+      write(28,6001) mx,mt,ntraj,nmd,dt,xaniso
       call flush
 ************************************************************************
 *                                                                      *
@@ -298,12 +302,15 @@ c      call MPI_FINALIZE(ierr)
 *     Format statements.                                               *
 ************************************************************************
  6000 format(//2x,'HMC: program version ',f8.3)
+ 
+ 6011 format(2x,'Fermion type: ',A1,'  Irrep 2j= ',i2)
+ 6012 format(2x,'Nf= ',i1,'  Beta= ',e12.4)
+ 6013 format(2x,'Ovlap mass= ',e12.4,'  Wilson mass= ',e12.4)
 
- 6001 format(2x,'Lattice size: nx=',i2,' ny=',i2/
-     1 2x,i1,' flavours of fermions with mass=',e12.4,2x,'Beta=',e12.4/
+ 6001 format(2x,'Lattice size: nx=',i2,' nt=',i2/
+c     1 2x,i1,' flavours of fermions with mass=',e12.4,2x,'Beta=',e12.4/
      1 2x,'Run',i3,' trajectories with nmd=',i3,' and dt=',e12.4/
-     1 2x,'Conjugate gradient stopping criterion=',e12.4/
-     1 2x,'Stout smearing eps1=',f8.3)
+     1 2x,'Lattice anisotropy=',e12.4)
 
  6002 format(/2x,'Trajectory',i6,t46,'MD time=',f16.2,t46,/
      1 2x,'ncgo=',t11,2i6/

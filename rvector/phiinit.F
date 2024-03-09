@@ -24,6 +24,7 @@
             call H_overlap(r,rphi(:,ifl),ncgw)
          elseif(fermtype.eq.'M')then
             call H_overlap_pow_p1by4(r,rphi(:,ifl),ncgo, ncgw)
+         endif
       enddo
 *
       call projchiral
