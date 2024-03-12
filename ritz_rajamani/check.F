@@ -44,13 +44,14 @@ c      open(99,file='hist'//fix(myid),status='unknown')
 ************************************************************************
       call sungenerators
       call su2alg
-c      call readconfig(beta, fm, dt, nitrc, delit, ntraj,
-c     1           nstep, istrt, time, nmd)
+      call puttwist
+      call readconfig(beta, fm, dt, nitrc, delit, ntraj,
+     1           nstep, istrt, time, nmd)
 c      write(*,*)beta,fm,dt,time
 c      call ordsun
 c      call ransun_pert
-      read(*,*)zeta
-      call twistflow(zeta)
+c      read(*,*)zeta
+c      call twistflow(zeta)
 ************************************************************************
 *     initialise the configuration                                     *
 ************************************************************************
@@ -59,11 +60,16 @@ c      call ransun_pert
       call setrn(lseed)
       
       call plaq(es)
+      es=1.0-real(es)/dfloat(mv*nc)/1.0D0
+      write(*,*)'thin plaq=',es;call flush
 
-      write(*,*)'plaq=',es;call flush
+
       call line(wl)
 
       call ferminit
+
+      call plaq_smear(es)
+      write(*,*)'smeared plaq=',es;call flush
 
       call startritz
 
@@ -77,4 +83,32 @@ c      call ransun_pert
       enddo
 *
  6001 format(1x, i3, 2x, e16.8,2x,e16.8,2x,i3,2x,e16.8,2x,e16.8)
+      end
+      subroutine puttwist
+#include "size.h"
+      integer ino, iup, idn, l0, l1,l2
+      complex*16 ztw
+      common /newold/ ino(mv)
+      common /iupidn/ iup(mv,nd), idn(mv,nd)
+      common /twisted/ztw(mv,-nd:nd ,-nd:nd)
+
+      ztw=1.0D0
+
+      l0=3
+
+      ztw(l0,1,2)=-1.0D0
+      ztw(l0,2,1)=-1.0D0
+
+      l1=iup(l0,1)
+      ztw(l1,-1,2)=-1.0D0
+      ztw(l1,2,-1)=-1.0D0
+
+      l1=iup(l1,2)
+      ztw(l1,-1,-2)=-1.0D0
+      ztw(l1,-2,-1)=-1.0D0
+
+      l1=iup(l0,2)
+      ztw(l1,1,-2)=-1.0D0
+      ztw(l1,-2,1)=-1.0D0
+
       end

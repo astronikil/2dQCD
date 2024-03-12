@@ -341,7 +341,6 @@ c     1 2x,i1,' flavours of fermions with mass=',e12.4,2x,'Beta=',e12.4/
       common /iupidn/ iup(mv,nd), idn(mv,nd)
       common /twisted/ztw(mv,-nd:nd ,-nd:nd)
 
-
       ztw=1.0D0
 
       l0=3

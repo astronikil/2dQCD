@@ -6,6 +6,7 @@
       elseif(fermtype.eq.'M')then
         call fermfo_majorana(ncgo,ncgw)
       endif
+      call smearforce
       return
       end
       subroutine fermfo_dirac(ncgo,ncgs)
