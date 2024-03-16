@@ -65,9 +65,9 @@ c      write(*,*)'U-half:',ene0,em0,es0,ef0
       call ferminit
       call energy(beta,em,es,ef,enef,ncgoe,ncgse)
       call metro(ene0,enef,naccept)             ! metropolis step
-c      write(*,*)'E0= ',ene0,em0,es0,ef0
-c      write(*,*)'EF= ',enef,em,es,ef
-c      write(*,*)' '
+      write(*,*)'E0= ',ene0,em0,es0,ef0
+      write(*,*)'EF= ',enef,em,es,ef
+      write(*,*)' '
 *
       return
       end

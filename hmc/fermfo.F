@@ -300,10 +300,10 @@
      1                            -rvx2(ic)-zi*zvx2(ic))
 
                v(ic,jc,l+mut)=
-     1         conjg(w(jc, 1, l))*((rvt1(ic)+zi*zvt1(ic))/xaniso**2
-     1                          +zi*(rvt2(ic)+zi*zvt2(ic))/xaniso) 
-     1        +conjg(w(jc, 2, l))*(zi*(rvt1(ic)+zi*zvt1(ic))/xaniso
-     1                          -(rvt2(ic)+zi*zvt2(ic))/xaniso**2)
+     1         conjg(w(jc, 1, l))*((rvt1(ic)+zi*zvt1(ic)) !/xaniso**2
+     1                          +zi*(rvt2(ic)+zi*zvt2(ic))) !/xaniso) 
+     1        +conjg(w(jc, 2, l))*(zi*(rvt1(ic)+zi*zvt1(ic)) !/xaniso
+     1                          -(rvt2(ic)+zi*zvt2(ic))) !/xaniso**2)
             enddo 
          enddo
       enddo

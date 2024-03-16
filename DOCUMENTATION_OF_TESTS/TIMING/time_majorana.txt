@@ -1,6 +1,13 @@
+
+With exact H_o^2 and complx valued links
+
+../hmc  577.55s user 1.98s system 99% cpu 9:40.30 total
+
 With exact H_o^2 and real valued links
 
-../hmc  534.86s user 3.24s system 99% cpu 8:59.27 total
+../hmc  503.62s user 4.86s system 98% cpu 8:34.22 total
+
+#####(old without optimization) ../hmc  534.86s user 3.24s system 99% cpu 8:59.27 total
 
 With chirally projected H_o^2 and real valued links
 

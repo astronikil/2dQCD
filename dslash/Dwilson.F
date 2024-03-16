@@ -274,32 +274,51 @@
 
          v(:,1,l) = v(:,1,l)+
      1     zph*(
-     1    -(rvt1+zi*zvt1)/xaniso**2 
-     1    -zi*(rvt2+zi*zvt2)/xaniso
-     1    -(rvx1+zi*zvx1)
-     1    +(rvx2+zi*zvx2)
-     1          ) + 
+     1     (
+     1    -rvt1 !/xaniso**2 
+     1    +zvt2 !/xaniso
+     1    -rvx1
+     1    +rvx2) + zi*(
+     1    -zvt1 !/xaniso**2 
+     1    -rvt2 !/xaniso
+     1    -zvx1
+     1    +zvx2)
+     1     ) + 
      1     zphconj*(
-     1    -(rwt1+zi*zwt1)/xaniso**2 
-     1    +zi*(rwt2+zi*zwt2)/xaniso
-     1    -(rwx1+zi*zwx1) 
-     1    -(rwx2+zi*zwx2)
-     1              )
+     1     (
+     1    -rwt1 !/xaniso**2 
+     1    -zwt2 !/xaniso
+     1    -rwx1 
+     1    -rwx2) + zi*(
+     1    -zwt1 !/xaniso**2 
+     1    +rwt2 !/xaniso
+     1    -zwx1 
+     1    -zwx2)
+     1     ) 
 
          v(:,2,l) = v(:,2,l)+
      1     zph*(
-     1     zi*(rvt1+zi*zvt1)/xaniso 
-     1    -(rvt2+zi*zvt2)/xaniso**2
-     1    +(rvx1+zi*zvx1) 
-     1    -(rvx2+zi*zvx2)
-     1          ) + 
+     1     (
+     1    -zvt1 !/xaniso 
+     1    -rvt2 !/xaniso**2
+     1    +rvx1 
+     1    -rvx2) + zi*(
+     1     rvt1 !/xaniso 
+     1    -zvt2 !/xaniso**2
+     1    +zvx1 
+     1    -zvx2)
+     1     ) + 
      1     zphconj*(
-     1    -zi*(rwt1+zi*zwt1)/xaniso 
-     1    -(rwt2+zi*zwt2)/xaniso**2
-     1    -(rwx1+zi*zwx1) 
-     1    -(rwx2+zi*zwx2)
-     1           )
-
+     1     (
+     1    +zwt1 !/xaniso 
+     1    -rwt2 !/xaniso**2
+     1    -rwx1 
+     1    -rwx2) + zi*(
+     1    -rwt1 !/xaniso 
+     1    -zwt2 !/xaniso**2
+     1    -zwx1 
+     1    -zwx2)
+     1     )
 
       enddo
 !$OMP end parallel do
