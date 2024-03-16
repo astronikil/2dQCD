@@ -22,8 +22,8 @@
       fm=1.0D0
       fmo=0.0D0
       xaniso=1.0D0
-      delitov=1.0E-4
-      delitsq=1.0E-6
+      delitov=1.0E-10
+      delitsq=1.0E-12
       nitov=5000
       nitsq=5000
       ztw=1.0D0
@@ -44,9 +44,14 @@ c      open(99,file='hist'//fix(myid),status='unknown')
 ************************************************************************
       call sungenerators
       call su2alg
-      call puttwist
-      call readconfig(beta, fm, dt, nitrc, delit, ntraj,
-     1           nstep, istrt, time, nmd)
+c      call puttwist
+c      call readconfig(beta, fm, dt, nitrc, delit, ntraj,
+c     1           nstep, istrt, time, nmd)
+
+      call readinit
+
+      read(*,*)fm
+      rm = 1.0D0 + 1.0D0/xaniso**2 - fm
 c      write(*,*)beta,fm,dt,time
 c      call ordsun
 c      call ransun_pert
@@ -96,19 +101,19 @@ c      call twistflow(zeta)
 
       l0=3
 
-      ztw(l0,1,2)=-1.0D0
-      ztw(l0,2,1)=-1.0D0
+      ztw(l0,1,2)=1.0D0
+      ztw(l0,2,1)=1.0D0
 
       l1=iup(l0,1)
-      ztw(l1,-1,2)=-1.0D0
-      ztw(l1,2,-1)=-1.0D0
+      ztw(l1,-1,2)=1.0D0
+      ztw(l1,2,-1)=1.0D0
 
       l1=iup(l1,2)
-      ztw(l1,-1,-2)=-1.0D0
-      ztw(l1,-2,-1)=-1.0D0
+      ztw(l1,-1,-2)=1.0D0
+      ztw(l1,-2,-1)=1.0D0
 
       l1=iup(l0,2)
-      ztw(l1,1,-2)=-1.0D0
-      ztw(l1,-2,1)=-1.0D0
+      ztw(l1,1,-2)=1.0D0
+      ztw(l1,-2,1)=1.0D0
 
       end

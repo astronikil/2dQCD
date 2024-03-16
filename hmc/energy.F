@@ -36,6 +36,7 @@ c      complex*16 x1(mvs),x2(mvs),x3(mvs),x4(mvs) !!!
          if(fermtype.eq.'D')then
             call invert_overlap(rphi(:,ifl),xsol,ncgo,ncgw)
          elseif(fermtype.eq.'M')then
+            write(*,*)'did M in energy'
             call H_overlap_pow_n1by2(rphi(:,ifl),xsol,ncgo,ncgw)
          endif
          ef=ef+real(mydot(rphi(:,ifl),xsol))

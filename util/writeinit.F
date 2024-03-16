@@ -1,10 +1,11 @@
       subroutine writeinit
 #include "size.h"
       integer ll, it, iy, ix, l, ino, ic, jc, ifl
-      complex*16 r,u,fo,qf
+      complex*16 r,u,fo,qf,rphi
       common /forces/ fo(nc,nc,mv,2), qf(nc,nc,mv,2)
       common /config/ u(nc,nc,mv,2)
       common/rinit/r(ncr,2,mv,nf)
+      common /phi/ rphi(ncr,2,mv,nf)
       common /newold/ ino(mv)
       ll=0
       do it=1,mt
@@ -22,6 +23,7 @@
 
          do ic=1,ncr
             write(82,*)ix,it,ic,(r(ic,1,l,ifl),r(ic,2,l,ifl), ifl=1,nf)
+      write(83,*)ix,it,ic,(rphi(ic,1,l,ifl),rphi(ic,2,l,ifl), ifl=1,nf)
          enddo
       enddo
       enddo

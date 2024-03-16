@@ -18,7 +18,7 @@
       call gnoise                               ! set the gaussian momenta
       call ferminit
       call phiinit                              ! initialise the phi vector
-      call writeinit
+c      call writeinit
       call energy(beta,em0,es0,ef0,ene0,ncgoe,ncgse)
 c      write(*,*)'T0    :',ene0,em0,es0,ef0
       call uevol(dt*0.5D0)                        ! evolve the gauge fields

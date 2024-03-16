@@ -6,6 +6,8 @@
       real*8 j,m
       complex*16 ai, ss
       complex*16 h1(ncr,ncr), h2(ncr,ncr), h3(ncr,ncr)
+      complex*16 r(ncr,ncr), lp(ncr,ncr), lm(ncr,ncr),
+     1           l3(ncr,ncr)
 
       ai=(0.d0,1.d0)
       
@@ -68,32 +70,32 @@ c      lm = T1 - i T3   T2 = (lp - lm)/2i
       T2 = -0.5D0*ai*(lp - lm)
       T3 = l3
 
-c      if(mod(ncr,2).ne.0) then
-c         do i1=1,ncr
-c            do i2=1,ncr
-c               h1(i1,i2)=0.d0
-c               h2(i1,i2)=0.d0
-c               h3(i1,i2)=0.d0
-c               do i3=1,ncr
-c                  h1(i1,i2)=h1(i1,i2)+T1(i1,i3)*dconjg(r(i2,i3))
-c                  h2(i1,i2)=h2(i1,i2)+T2(i1,i3)*dconjg(r(i2,i3))
-c                  h3(i1,i2)=h3(i1,i2)+T3(i1,i3)*dconjg(r(i2,i3))
-c               enddo
-c            enddo
-c         enddo
-c         do i1=1,ncr
-c            do i2=1,ncr
-c               T1(i1,i2)=0.d0
-c               T2(i1,i2)=0.d0
-c               T3(i1,i2)=0.d0
-c               do i3=1,ncr
-c                  T1(i1,i2)=T1(i1,i2)+r(i1,i3)*h1(i3,i2)
-c                  T2(i1,i2)=T2(i1,i2)+r(i1,i3)*h2(i3,i2)
-c                  T3(i1,i2)=T3(i1,i2)+r(i1,i3)*h3(i3,i2)
-c               enddo
-c            enddo
-c         enddo
-c      endif
+      if(mod(ncr,2).ne.0) then
+         do i1=1,ncr
+            do i2=1,ncr
+               h1(i1,i2)=0.d0
+               h2(i1,i2)=0.d0
+               h3(i1,i2)=0.d0
+               do i3=1,ncr
+                  h1(i1,i2)=h1(i1,i2)+T1(i1,i3)*dconjg(r(i2,i3))
+                  h2(i1,i2)=h2(i1,i2)+T2(i1,i3)*dconjg(r(i2,i3))
+                  h3(i1,i2)=h3(i1,i2)+T3(i1,i3)*dconjg(r(i2,i3))
+               enddo
+            enddo
+         enddo
+         do i1=1,ncr
+            do i2=1,ncr
+               T1(i1,i2)=0.d0
+               T2(i1,i2)=0.d0
+               T3(i1,i2)=0.d0
+               do i3=1,ncr
+                  T1(i1,i2)=T1(i1,i2)+r(i1,i3)*h1(i3,i2)
+                  T2(i1,i2)=T2(i1,i2)+r(i1,i3)*h2(i3,i2)
+                  T3(i1,i2)=T3(i1,i2)+r(i1,i3)*h3(i3,i2)
+               enddo
+            enddo
+         enddo
+      endif
 
 c      h1=0.0D0
 c      ss=0.0D0

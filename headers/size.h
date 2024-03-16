@@ -5,15 +5,15 @@
 *************************************************************************
       implicit none
 c      include "mpif.h"
-      integer, parameter :: mx=28, mt=28, nd=2
+      integer, parameter :: mx=4, mt=4, nd=2
 
 c     nc=2 will remain since we want work with SU(2)
 c     ncr is the size of the representation of the fermions and n=2j+1 where j is the representation.
 
-      character, parameter :: fermtype = 'D'  ! Dirac=D, Majorana=M
+      character, parameter :: fermtype = 'M'  ! Dirac=D, Majorana=M
 
       integer, parameter :: nc=2, nc2=nc*nc
-      integer, parameter :: twoXj=8, ncr=twoXj+1
+      integer, parameter :: twoXj=2, ncr=twoXj+1
 c      
       integer, parameter :: nca=nc2-1
       integer, parameter :: mv=mx*mt, mb=nd*mv, mv2=(nd-1)*mv

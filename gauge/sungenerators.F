@@ -8,6 +8,19 @@
 *
       tgen=(0.0D0,0.0D0)
 *
+      if(nc.eq.2)then
+      
+      tgen(1,1,1)=0.0D0; tgen(1,2,1)=1.0D0
+      tgen(2,1,1)=1.0D0; tgen(2,2,1)=0.0D0
+
+      tgen(1,1,2)=0.0D0; tgen(1,2,2)=zi
+      tgen(2,1,2)=-zi;   tgen(2,2,2)=0.0D0
+
+      tgen(1,1,3)=-1.0D0; tgen(1,2,3)=0.0D0
+      tgen(2,1,3)=0.0D0;  tgen(2,2,3)=1.0D0
+
+      else
+
       l=0
       do ic=1,nc
          do jc=ic+1,nc
@@ -34,20 +47,20 @@
          tgen(ic+1,ic+1,l)=-dfloat(ic)*
      1           sqrt(2.0D0/(dfloat(ic)*(dfloat(ic)+1.0D0)))
       enddo
+      endif
       end
-*      
 c      program main
-cinclude "size.h"
-c     integer ic, jc, l
-c     complex*16 tgen
-c     common /gellmann/ tgen(nc, nc, nca)
-
-c     call sungenerators
-
-c     do l=1,nca
+c#include "size.h"
+c      integer ic, jc, l
+c      complex*16 tgen
+c      common /gellmann/ tgen(nc, nc, nca)
+c
+c      call sungenerators
+c
+c      do l=1,nca
 c        do ic=1,nc
 c           write(*,*)(tgen(ic,jc,l),jc=1,nc)
 c        enddo
 c        write(*,*)'###########################'
-c     enddo
-c     end
+c      enddo
+c      end

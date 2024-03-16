@@ -1,7 +1,7 @@
       subroutine fundtoJ
 
       include 'globalgen.f'
-      integer i1,i2,i3,m, ll, muu
+      integer i1,i2,i3,m, ll, muu, ino
       real*8 theta,snt,th1,th2,th3,j
 
       complex*16 uin, uout, zphase(nd)
@@ -13,6 +13,7 @@
       real*8 w(ncr),rwork(3*ncr-2)
       common /configsmr/ uin(nc,nc,mb)
       common /configsmr_irrep/ uout(ncr,ncr,mb)
+      common /newold/ ino(mv)
 
 c     zheev is the LAPACK routine used for eigenvalue and eigenvector computations
 
@@ -42,10 +43,10 @@ c     computation of algebra angles from u
       endif
       snt=sin(theta)/theta
       th1=aimag(u(1,2))/snt
-      th2=real(u(1,2))/snt
+      th2=-real(u(1,2))/snt
       thp=0.5d0*(th1-ai*th2)
       thm=0.5d0*(th1+ai*th2)
-      th3=aimag(u(1,1))/snt
+      th3=-aimag(u(1,1))/snt
 
 
 c     Form the H in U=e^{-iH} and H is the nxn matrix      
@@ -115,6 +116,10 @@ c         enddo
 c      enddo
 
       enddo  !end loop over lattice sites
+
+      ll=ino(1)
+      write(*,*)uout(:,:,ll)
+
                
       return
       end

@@ -21,8 +21,11 @@ c      call H_wilson(x,w)
          v(:,2,l)=(0.0D0,0.0D0)
       enddo
 
-      call H_overlap(v,x,ncgo)
-      call H_overlap(x,w,ncgo)
+c      call H_overlap(v,x,ncgo)
+c      call H_overlap(x,w,ncgo)
+
+      call H_wilson(v,x)
+      call H_wilson(x,w)
 
       do l=1,nv
          w(:,2,l)=(0.0D0,0.0D0)
