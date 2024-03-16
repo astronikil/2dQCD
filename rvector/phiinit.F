@@ -23,7 +23,6 @@
          if(fermtype.eq.'D')then
             call H_overlap(r,rphi(:,ifl),ncgw)
          elseif(fermtype.eq.'M')then
-            write(*,*)'did M in phiinit'
             call H_overlap_pow_p1by4(r,rphi(:,ifl),ncgo, ncgw)
          endif
       enddo

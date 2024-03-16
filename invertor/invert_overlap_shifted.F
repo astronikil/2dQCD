@@ -12,14 +12,14 @@ c#include "zolo.h"
       real*8 pz, rz
       complex*16 ps, xs
       complex*16 p, r, x, dtp, ddtp
-      complex*16 mydot
+      complex*16 mydot, mychiraldot
       complex*16 rphi(mvs)
       real*8 xinew(nzolmax), xicurr(nzolmax), xiold(nzolmax)
       real*8 betas(nzolmax), alphas(nzolmax)
       real*8 rt(mvs2)
       real*8 delit, relit
       real*8 alphan, alphad, betan, betad, beta, alpha, alphold
-      real*8 rnorm
+      real*8 rnorm, rchinorm
       complex*16 rphinorm(mvs)
 *
       common /param_overlap/ delit, nitrc
@@ -34,6 +34,7 @@ c#include "zolo.h"
       equivalence (rt(1),r(1))
 *
       rnorm=sqrt(real(mydot(rphi,rphi)))
+      rchinorm=real(mychiraldot(rphi,rphi))/rnorm/rnorm
       rphinorm=rphi/rnorm
 *
       kzol=nzolin
@@ -68,8 +69,14 @@ c#include "zolo.h"
 *************************************************************************
 *        Multiplying by the matrix: M^+ M                               *
 *************************************************************************
-         call H_overlap(p,dtp,ncgs)
-         call H_overlap(dtp,ddtp,ncgs)
+         if(rchinorm.lt.relit)then
+c            write(*,*)'switch to overlap_square:',rchinorm
+            call H_overlap_square(p,ddtp,ncgs)
+         else
+c            write(*,*)'switch to exact overlap2:',rchinorm
+            call H_overlap(p,dtp,ncgs)
+            call H_overlap(dtp,ddtp,ncgs)
+         endif
 *************************************************************************
 *        Update the solution and residual                               *
 *************************************************************************

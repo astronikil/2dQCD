@@ -10,6 +10,10 @@
       call fundtoJ
       call linkc
 c      call clover
+      
+      if(fermtype.eq.'M')then
+        call torealrep
+      endif
 *
       return
       end subroutine ferminit
@@ -38,6 +42,20 @@ c      call clover
             enddo
          enddo
       enddo
+*
+      return
+      end
+      subroutine torealrep
+#include "size.h"
+      complex*16 u, ud
+      real*8 ru, rud
+      common /configsmr_irrep/ u(ncr,ncr,mb)
+      common /donfigsmr_irrep/ ud(ncr,ncr,mb)
+      common /real_configsmr_irrep/ ru(ncr,ncr,mb)
+      common /real_donfigsmr_irrep/ rud(ncr,ncr,mb)
+*
+      ru=real(u)
+      rud=real(ud)
 *
       return
       end

@@ -6,7 +6,7 @@
 ************************************************************************
 #include "size.h"
 *
-      real*8, parameter :: DACCU1=1.0E-12, DACCU2=1.0E-13
+      real*8, parameter :: DACCU1=1.0E-7, DACCU2=1.0E-9
 c      real*8, parameter :: DACCU1=1.0E-5, DACCU2=1.0E-7
 *
       integer ifl, l, ncgo, ncgw, nitov, nitsq, ic, jc
@@ -36,7 +36,6 @@ c      complex*16 x1(mvs),x2(mvs),x3(mvs),x4(mvs) !!!
          if(fermtype.eq.'D')then
             call invert_overlap(rphi(:,ifl),xsol,ncgo,ncgw)
          elseif(fermtype.eq.'M')then
-            write(*,*)'did M in energy'
             call H_overlap_pow_n1by2(rphi(:,ifl),xsol,ncgo,ncgw)
          endif
          ef=ef+real(mydot(rphi(:,ifl),xsol))

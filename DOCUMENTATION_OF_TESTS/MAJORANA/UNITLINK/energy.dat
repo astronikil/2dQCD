@@ -1,0 +1,14 @@
+Energy values in the version of code that used complex values j=1 links (antiperiodic bc), and exact overlap^2
+
+E0=    90.164993407909634        49.291983265889726        0.0000000000000000        40.873010142019908
+EF=    90.108751269247307        36.177066858494463        12.427517666108884        41.504166744643967
+
+Energy values in the version of code that used real valued j=1 links (antiperiodic bc), and exact overlap^2
+
+E0=    90.164993407909606        49.291983265889726        0.0000000000000000        40.873010142019872
+EF=    90.108751269247279        36.177066858494470        12.427517666108855        41.504166744643960
+
+Energy values in the version of code that used real valued j=1 links (antiperiodic bc), and chirally projected H_o^2.
+
+E0=    90.164993412453128        49.291983265889726        0.0000000000000000        40.873010146563409
+EF=    90.108751273821184        36.177066858971614        12.427517665884238        41.504166748965325
