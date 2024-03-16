@@ -117,10 +117,6 @@ c      enddo
 
       enddo  !end loop over lattice sites
 
-      ll=ino(1)
-      write(*,*)uout(:,:,ll)
-
-               
       return
       end
       
