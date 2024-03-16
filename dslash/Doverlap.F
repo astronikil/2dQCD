@@ -20,6 +20,34 @@
 *
       return
       end
+      subroutine H_overlap_square(v,w,ncg)
+*************************************************************
+*                                                           *
+*     Finds H_o^2 v_+, where v_+ chiral in upper comp.      *
+*     Note: It is not to be used if v is not chiral!        *
+*                                                           *
+*************************************************************
+#include "size.h"
+      integer ncg, l
+      real*8 r1, r2, fmo
+      complex*16 v(ncr,nspr,mv), w(ncr,nspr,mv)
+      complex*16 x, y
+      complex*16 mydot
+      common /quark_ov/ fmo
+      common /fermwrk1/ x(ncr,nspr,mv), y(ncr,nspr,mv)
+*
+      r1=0.5D0*(1.0D0+fmo*fmo)
+      r2=0.5D0*(1.0D0-fmo*fmo)
+      call H_wilson(v,x)
+      call sqrtoverlap(x,y,ncg)
+*
+      do l=1,mv
+         w(:,1,l) =  r1*v(:,1,l) + r2*y(:,1,l)
+         w(:,2,l) =  0.0D0
+      enddo
+*
+      return
+      end
       subroutine V_overlap(v,w,ncg)
 #include "size.h"
       integer ncg, l

@@ -66,11 +66,11 @@
          do izol=1,nzol
             call H_wilson(z(:,izol), w)
 
-            call wdfmv(w, wrk)
+            call wdfmv_complex(w, wrk)
 
             fo_ir=fo_ir+0.25D0*zi*rz(izol)*wrk
 
-            call wdfmv(z(:,izol), wrk)
+            call wdfmv_complex(z(:,izol), wrk)
 
             fo_ir=fo_ir-0.25D0*zi*rz(izol)*pz(izol)*wrk
 
@@ -170,11 +170,11 @@
             do izol=1,nzol
                call H_wilson(z(:,izol), w)
 
-               call wdfmv(w, wrk)
+               call wdfmv_real(w, wrk)
 
                fo_ir=fo_ir+0.25D0*zi*rz(izol)*r_n1by2(jzol)*wrk
 
-               call wdfmv(z(:,izol), wrk)
+               call wdfmv_real(z(:,izol), wrk)
 
                fo_ir=fo_ir-0.25D0*zi*rz(izol)*pz(izol)*r_n1by2(jzol)*wrk
 
@@ -211,7 +211,7 @@
       enddo
       return
       end
-      subroutine wdfmv(w, v)
+      subroutine wdfmv_complex(w, v)
 #include "size.h"
 #include "improve.h"
       integer l, ic, jc, iup, idn, lmu
@@ -251,5 +251,62 @@
             enddo 
          enddo
       enddo
+      return
+      end
+      subroutine wdfmv_real(w, v)
+#include "size.h"
+#include "improve.h"
+      integer l, ic, jc, iup, idn, lmu
+      real*8 u, xaniso
+      real*8 rw(ncr,nspr,mv), zw(ncr,nspr,mv)
+      real*8 x(ncr,ncr)
+      real*8 rvx1(ncr), rvx2(ncr)
+      real*8 rvt1(ncr), rvt2(ncr)
+      real*8 zvx1(ncr), zvx2(ncr)
+      real*8 zvt1(ncr), zvt2(ncr)
+      complex*16 zi, rgu, rgd
+      complex*16 v(ncr,ncr,mb), w(ncr,nspr,mv)
+      common /real_configsmr_irrep/ u(ncr,ncr,mb)
+      common /iupidn/ iup(mb), idn(mb)
+      common /anisotropy/ xaniso
+      zi=(0.0D0,1.0D0)
+*
+      rw=real(w)
+      zw=aimag(w)
+*
+      v=(0.0D0,0.0D0)
+      do l=1, mv
+         x(:,:) = u(:,:, l+mux)
+         lmu = iup(l+mux)
+         rvx1 = matmul(x, rw(:, 1, lmu))
+         rvx2 = matmul(x, rw(:, 2, lmu))
+         zvx1 = matmul(x, zw(:, 1, lmu))
+         zvx2 = matmul(x, zw(:, 2, lmu))
+
+         x(:,:) = u(:,:, l+mut)
+         lmu = iup(l+mut)
+         rvt1 = matmul(x, rw(:, 1, lmu))
+         rvt2 = matmul(x, rw(:, 2, lmu))
+         zvt1 = matmul(x, zw(:, 1, lmu))
+         zvt2 = matmul(x, zw(:, 2, lmu))
+
+         ! spin trace over (1+\sigma_i).sigma_3.v
+         do ic=1, ncr
+            do jc=1, ncr
+               v(ic,jc,l+mux)=
+     1         conjg(w(jc, 1, l))*(rvx1(ic)+zi*zvx1(ic)
+     1                            -rvx2(ic)-zi*zvx2(ic)) 
+     1        +conjg(w(jc, 2, l))*(rvx1(ic)+zi*zvx1(ic)
+     1                            -rvx2(ic)-zi*zvx2(ic))
+
+               v(ic,jc,l+mut)=
+     1         conjg(w(jc, 1, l))*((rvt1(ic)+zi*zvt1(ic)) !/xaniso**2
+     1                          +zi*(rvt2(ic)+zi*zvt2(ic))) !/xaniso) 
+     1        +conjg(w(jc, 2, l))*(zi*(rvt1(ic)+zi*zvt1(ic)) !/xaniso
+     1                          -(rvt2(ic)+zi*zvt2(ic))) !/xaniso**2)
+            enddo 
+         enddo
+      enddo
+      v=v*zph
       return
       end

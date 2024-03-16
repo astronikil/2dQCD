@@ -1,0 +1,22 @@
+Energy values in the version of code that used complex values j=1 links (antiperiodic bc), and exact overlap^2
+
+E0=    376.97115034039643        48.627928518801305        278.45886984301023        49.884351978584903
+EF=    381.53113411843788        212.37560692859927        114.23535565872299        54.920171531115628
+
+
+Energy values in the version of code that used real valued j=1 links (antiperiodic bc), and exact overlap^2
+
+ E0=    376.97115034039564        48.627928518801305        278.45886984301023        49.884351978584107
+ EF=    381.53113411773586        212.37560692840336        114.23535565826597        54.920171531066551
+
+
+Energy values in the version of code that used real valued j=1 links (antiperiodic bc), and chirally projected H_o^2.
+
+E0=    376.97115034626944        48.627928518801305        278.45886984301023        49.884351984457908
+EF=    382.14470183283055        212.51736986386553        114.66195208165652        54.965379887308515
+
+
+The energy accuracy becomes less when chirally projected H_o^2 is used. But this can be seen as an issue due
+to possible near zero modes on random config by seeing much better agreement in a thermalized configuration 
+test in THERMALIZEDCONFIG directory.
+

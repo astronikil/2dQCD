@@ -18,8 +18,8 @@
 c     zheev is the LAPACK routine used for eigenvalue and eigenvector computations
 
       ai=(0.d0,1.d0)
-      zphase(1)=exp(ai*acos(-1.0D0)/dfloat(mx))
-      zphase(2)=exp(ai*acos(-1.0D0)/dfloat(mt))
+      zphase(1)=1.0D0 !exp(ai*acos(-1.0D0)/dfloat(mx))
+      zphase(2)=1.0D0 !exp(ai*acos(-1.0D0)/dfloat(mt))
       jobz='V'
       uplo='U'
 
@@ -48,14 +48,6 @@ c     computation of algebra angles from u
       thm=0.5d0*(th1+ai*th2)
       th3=-aimag(u(1,1))/snt
 
-
-c     Form the H in U=e^{-iH} and H is the nxn matrix      
-c      do i1=1,ncr
-c         do i2=1,ncr
-c            h(i1,i2)=2.0D0*(thp*lp(i1,i2)+thm*lm(i1,i2)+th3*l3(i1,i2))
-c         enddo
-c      enddo
-
       h = 2.0D0*(th1*T1 + th2*T2 + th3*T3)
 
 c     Diagonalize H
@@ -73,27 +65,6 @@ c     Form the nxn special unitary matrix in the |j,m> basis.
             v(i1,i2)=sum
          enddo
       enddo
-
-c     Rotate it by r to make in real for an integer representation.
-
-c      if(mod(ncr,2).ne.0) then
-c         do i1=1,ncr
-c            do i2=1,ncr
-c               h(i1,i2)=0.d0
-c               do i3=1,ncr
-c                  h(i1,i2)=h(i1,i2)+v(i1,i3)*dconjg(r(i2,i3))
-c               enddo
-c            enddo
-c         enddo
-c         do i1=1,ncr
-c            do i2=1,ncr
-c               v(i1,i2)=0.d0
-c               do i3=1,ncr
-c                  v(i1,i2)=v(i1,i2)+r(i1,i3)*h(i3,i2)
-c               enddo
-c            enddo
-c         enddo
-c      endif
 
       uout(:,:,ll) = v(:,:)*zphase(muu)
 

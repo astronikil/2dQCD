@@ -10,9 +10,9 @@
       integer iup, idn, nitrc, nitcg, l, ncgs, nx
       complex*16 rphi(mvs), xsol(mvs), rphinorm(mvs)
       complex*16 dtp, ddtp, p, r, x
-      complex*16 mydot
+      complex*16 mydot, mychiraldot
       real*8 delit, relit, alphan, alphad, betan, betad, beta, alpha
-      real*8 rnorm, rcheck
+      real*8 rnorm, rchinorm, rcheck
 *
       common /param_overlap/ delit, nitrc
       common /arrays_overlap/ r(mvs), p(mvs), x(mvs),
@@ -22,6 +22,7 @@
 *        Find U^+ used in D and D^+                                     *
 *************************************************************************
       rnorm=sqrt(real(mydot(rphi,rphi)))
+      rchinorm=real(mychiraldot(rphi,rphi))/rnorm/rnorm
       rphinorm=rphi/rnorm
 *
       x=(0.0D0,0.0D0)
@@ -42,8 +43,14 @@
 *************************************************************************
 *        Multiplying by the matrix: M^+ M                               *
 *************************************************************************
-         call H_overlap(p,dtp,ncgs)
-         call H_overlap(dtp,ddtp,ncgs)
+         if(rchinorm.lt.relit)then
+c            write(*,*)'switch to overlap_square'
+            call H_overlap_square(p,ddtp,ncgs)
+         else
+c            write(*,*)'switch to exact overlap2'
+            call H_overlap(p,dtp,ncgs)
+            call H_overlap(dtp,ddtp,ncgs)
+         endif
 *************************************************************************
 *        Update the solution and residual                               *
 *************************************************************************
