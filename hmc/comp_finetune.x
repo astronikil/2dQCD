@@ -29,18 +29,18 @@ gfortran -O3 -o hmc \
 ../rvector/phiinit.F \
 ../rvector/gnoise.F \
 ../rvector/ranv.F \
-../ritz_rajamani/submain.f \
-../ritz_rajamani/ddag.F \
-../ritz_rajamani/random.f \
-../ritz_rajamani/mathtools.f \
-../ritz_rajamani/sort.f \
-../ritz_rajamani/GS.f \
-../ritz_rajamani/spectrum.f \
-../ritz_rajamani/startritz.f \
-../ritz_rajamani/ritz.f \
-../ritz_rajamani/diagritz.f \
-../ritz_rajamani/miscroutines.f \
-../ritz_rajamani/ipr.f \
+../ritz/submain.f \
+../ritz/ddag.F \
+../ritz/random.f \
+../ritz/mathtools.f \
+../ritz/sort.f \
+../ritz/GS.f \
+../ritz/spectrum.f \
+../ritz/startritz.f \
+../ritz/ritz.f \
+../ritz/diagritz.f \
+../ritz/miscroutines.f \
+../ritz/ipr.f \
 ../c2pt/submain.F \
 ../c2pt/checktolinear.F \
 ../c2pt/paulinit.F \
@@ -48,6 +48,6 @@ gfortran -O3 -o hmc \
 ../c2pt/c2pt.F \
 -llapack \
 -I ../headers \
--I ../ritz_rajamani
+-I ../ritz
 
 
